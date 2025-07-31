@@ -17,7 +17,8 @@ export default {
         biru: "#4F9CF9",
         kuning: "#FFE492",
         hitam: "#212529",
-        putih: "#ffffff"
+        putih: "#ffffff",
+        biruGelap: "#043873"
       }
 
     },

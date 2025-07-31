@@ -27,8 +27,8 @@ const Buttons = ({
   };
 
   const sizeText = {
-    s: "text-[18px] font-serif text-[#043873]",
-    sm: "text-[18px] font-seriftext-white",
+    s: "text-[18px] font-inter text-[#043873]",
+    sm: "text-[18px] font-inter text-white",
     sb: "text-[18px] text-inter",
   };
   return (
