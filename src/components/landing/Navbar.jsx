@@ -24,15 +24,22 @@ const Navbar = () => {
 
         <div className="hidden lg:flex">
           <ul className="flex space-x-6 text-[#4F9CF9] font-medium">
-            {["Fitur", "Harga Paket", "FAQ", "Bisnis"].map((item, idx) => (
-              <li
-                key={idx}
-                className="cursor-pointer hover:text-blue-800 mr-[32px] flex items-center space-x-1"
-              >
-                <span className="mr-[10px]">{item}</span>
-                <img src={arrow_r} alt="" className="w-[9px] h-[4px]" />
-              </li>
-            ))}
+            <li className="cursor-pointer hover:text-blue-800 flex items-center space-x-1">
+              <span className="mr-[10px]">Fitur</span>
+              <img src={arrow_r} alt="" className="w-[9px] h-[4px]" />
+            </li>
+            <li className="cursor-pointer hover:text-blue-800 flex items-center space-x-1">
+              <span className="mr-[10px]">Harga Paket</span>
+              <img src={arrow_r} alt="" className="w-[9px] h-[4px]" />
+            </li>
+            <li className="cursor-pointer hover:text-blue-800 flex items-center space-x-1">
+              <span className="mr-[10px]">FAQ</span>
+              <img src={arrow_r} alt="" className="w-[9px] h-[4px]" />
+            </li>
+            <li className="cursor-pointer hover:text-blue-800 flex items-center space-x-1">
+              <span className="mr-[10px]">Bisnis</span>
+              <img src={arrow_r} alt="" className="w-[9px] h-[4px]" />
+            </li>
           </ul>
         </div>
 

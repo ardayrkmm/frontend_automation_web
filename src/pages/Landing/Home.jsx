@@ -4,6 +4,8 @@ import ContentSection from "../../components/landing/ContentSection";
 import gambarS1 from "../../assets/ds.png";
 import gambarS4 from "../../assets/ds4.png";
 import ContentSection2 from "../../components/landing/ContentSection2";
+import ContentSection3 from "../../components/landing/ContentSection3";
+import TestimonialSection from "../../components/landing/Testi";
 
 const Home = () => {
   return (
@@ -44,6 +46,8 @@ const Home = () => {
           image={gambarS4}
           reverse={true}
         />
+        <ContentSection3 />
+        <TestimonialSection />
       </div>
     </div>
   );
