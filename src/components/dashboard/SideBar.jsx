@@ -9,6 +9,7 @@ import {
   FiChevronsRight,
 } from "react-icons/fi";
 import { useState } from "react";
+import avatar from "../../assets/avatar_3.png";
 import logo from "../../assets/Logo.png";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -105,11 +106,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         {expanded ? (
           <div>
             <div className="flex items-center gap-2 p-3 rounded bg-[#2e2e2e] mb-2">
-              <img
-                src="/user.png"
-                className="w-8 h-8 rounded-full"
-                alt="User"
-              />
+              <img src={avatar} className="w-8 h-8 rounded-full" alt="User" />
               <div className="flex-1">
                 <p className="text-sm font-medium">Tran Mau Tri Tam</p>
                 <p className="text-xs text-gray-400">tam@ui8.net</p>

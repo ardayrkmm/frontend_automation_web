@@ -1,20 +1,22 @@
 import Buttons from "../common/button";
 import bots from "../../assets/bot.png";
+import { IoIosArrowRoundForward } from "react-icons/io";
 
 const Headers = () => {
   return (
-    <div className="flex flex-col-reverse lg:flex-row items-center px-[54px] justify-between">
-      <div className="flex-initial w-full lg:w-[700px] p-[20px]">
-        <h1 className="text-biru text-inter font-bold text-[26px] md:text-[26px] lg:text-[60px] xl:text-[60px]">
-          Halo, Saya Gitbots Ada Yang Bisa Saya Bantu?
+    <div className="flex flex-col-reverse lg:flex-row items-center px-[54px] bg-gradient-to-t from-[#4F9CF9] to-putih justify-between">
+      <div className="flex-initial w-full lg:w-[750px] p-[20px]">
+        <h1 className="text-hitam text-inter font-bold text-[26px] md:text-[26px] lg:text-[60px] xl:text-[60px]">
+          Otomasi Bisnis 24/7 Dengan AI Super Pintar
         </h1>
-        <p className="text-biru text-inter font-light text-[18px] md:text-[22px] lg:text-[28px] xl:text-[28px] mb-[30px]">
-          Solusi AI serba bisa untuk bisnis, edukasi, customer service, dan
-          pengembangan konten.
+        <p className="text-hitam text-inter font-light text-[18px] md:text-[22px] lg:text-[18px] xl:text-[18px] mb-[30px]">
+          Agen AI dengan fast response saja tidak cukup. Di Indonesia, kamu
+          butuh AI yang bisa menganalisa percakapan serta memahami budaya dan
+          kebiasaan orang Indonesia.
         </p>
 
         <Buttons variant="primary" className="w-[231px] h-[63px] mt-[30px]">
-          Coba Chatbot Gratis
+          Coba Chatbot Gratis <IoIosArrowRoundForward />
         </Buttons>
       </div>
       <div className="flex-initial ml-0 lg:ml-[20px] mb-[20px] lg:mb-0">

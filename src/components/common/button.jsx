@@ -13,8 +13,9 @@ const Buttons = ({
   const baseStyles =
     "rounded-lg font-medium transition-all font-serif cursor-pointer";
   const varian = {
-    primary: "bg-[#4F9CF9] hover:bg-[#398FF9] text-[#ffffff] font-serif",
-    secondary: "bg-[#FFE492] hover:bg-[#FFD95C] text-[#043873] font-serif",
+    primary:
+      "bg-gradient-to-r from-[#4F9CF9] to-[#0E4D99] text-[#ffffff] font-serif",
+    secondary: "bg-kuning hover:bg-kuning text-[#043873] font-serif",
   };
 
   const ukuran = {
@@ -31,20 +32,19 @@ const Buttons = ({
     sm: "text-[18px] font-inter text-white",
     sb: "text-[18px] text-inter",
   };
+
   return (
-    <div
+    <button
       type={type}
       onClick={onClick}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          onClick?.(e);
-        }
-      }}
       className={`${baseStyles} ${varian[variant]} ${ukuran[size]} ${className}`}
       {...props}
     >
-      <h1 className={`${sizeText[sizeTexts]}`}>{children}</h1>
-    </div>
+      <span className={`${sizeText[sizeTexts]} flex items-center gap-2`}>
+        {children}
+      </span>
+    </button>
   );
 };
+
 export default Buttons;

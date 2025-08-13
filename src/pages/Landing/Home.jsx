@@ -1,11 +1,15 @@
 import Headers from "../../components/landing/Header";
 import bgWave from "../../assets/BACKGROUND.png";
 import ContentSection from "../../components/landing/ContentSection";
-import gambarS1 from "../../assets/ds.png";
+import gambarS1 from "../../assets/il3.png";
 import gambarS4 from "../../assets/ds4.png";
 import ContentSection2 from "../../components/landing/ContentSection2";
 import ContentSection3 from "../../components/landing/ContentSection3";
 import TestimonialSection from "../../components/landing/Testi";
+import FeaturesSection from "../../components/landing/ContentSection4";
+import SectionHarga from "../../components/landing/SectionHarga";
+import ContentClient from "../../components/landing/SectionClient";
+import FAQ from "../../components/landing/Faq";
 
 const Home = () => {
   return (
@@ -17,27 +21,46 @@ const Home = () => {
       />
       <div className="w-full px-0 mx-0">
         <Headers />
+
+        <div className="bg-gradient-to-t from-[#4F9CF9] to-putih relative ">
+          {/* Section dengan posisi absolute */}
+          <div className="relative top-[-85px]">
+            <FeaturesSection />
+          </div>
+
+          <ContentSection
+            title="Selesaikan Masalah Pelanggan dari A-Z!"
+            description="Bukan sekedar tanya jawab, Gitbots bisa bantu untuk identifikasi masalah, sampai menyelesaikan masalah..."
+            image={gambarS1}
+            reverse={false}
+            extraContent={
+              <p
+                className="text-putih cursor-pointer"
+                onClick={() => console.log("Load more clicked!")}
+              >
+                Lihat Demo..
+              </p>
+            }
+          />
+        </div>
+
         <ContentSection
-          title="Upload Dokumen, Video, & Gambar"
-          description="Cukup unggah file Anda — PDF, dokumen Word, presentasi, gambar, hingga video. Asisten AI kami akan membaca isinya dan menjawab pertanyaan, meringkas, atau menjelaskan konten secara instan."
-          buttonText="Get Started"
+          title="Multi-Knowledge!"
+          description="Dengan Pekerja.ai, satu akun Whatsapp atau sosial media lainnya dapat menangani berbagai jenis informasi dan kebutuhan bisnis. Dari customer service, sales, hingga support.
+Semua terintegrasi dalam satu AI yang cerdas dan responsif"
           image={gambarS1}
           reverse={true}
+          extraContent={
+            <p
+              className="text-biru cursor-pointer"
+              onClick={() => console.log("Load more clicked!")}
+            >
+              Lihat Demo..
+            </p>
+          }
         />
-        <ContentSection
-          title="Kolaborasi tim + kecerdasan AI"
-          description="Bekerja lebih cerdas bersama tim Anda. Undang anggota tim ke workspace bersama dan biarkan AI membantu semua orang menyusun, merevisi, atau menjawab pertanyaan secara instan."
-          buttonText="Try It Now"
-          image={gambarS1}
-          reverse={false}
-        />
-        <ContentSection
-          title="AI Cerdas Sesuai Gaya Anda"
-          description="Asisten AI kami menyesuaikan diri dengan alur kerja Anda. Unggah dokumen, pilih gaya komunikasi, atur tugas khusus — dan sesuaikan dengan kebutuhan Anda. Cocok untuk pebisnis, pengajar, kreator konten, atau siapa saja yang ingin bekerja lebih efisien dengan bantuan AI."
-          buttonText="Lets Go"
-          image={gambarS1}
-          reverse={true}
-        />
+
+        <SectionHarga />
         <ContentSection2 />
         <ContentSection
           title="100% data anda"
@@ -46,6 +69,8 @@ const Home = () => {
           image={gambarS4}
           reverse={true}
         />
+        <ContentClient />
+        <FAQ />
         <ContentSection3 />
         <TestimonialSection />
       </div>

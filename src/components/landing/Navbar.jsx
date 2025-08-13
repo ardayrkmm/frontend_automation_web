@@ -3,12 +3,18 @@ import Button from "../common/button";
 import arrow_r from "../../assets/arrow_b.png";
 import Logo from "../../assets/Logo.png";
 import { FiMenu, FiX } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowRoundForward } from "react-icons/io";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
-
+  const navigate = useNavigate();
+  const handleLoginClick = () => {
+    navigate("/auth/login"); // pindah ke halaman login
+  };
   return (
     <nav className="bg-white shadow-md px-[24px] py-[16px]">
       <div className="flex items-center justify-between">
@@ -23,22 +29,22 @@ const Navbar = () => {
         </div>
 
         <div className="hidden lg:flex">
-          <ul className="flex space-x-6 text-[#4F9CF9] font-medium">
+          <ul className="flex space-x-6 text-hitam font-medium">
+            <li className="cursor-pointer hover:text-blue-800 flex items-center space-x-1">
+              <span className="mr-[10px]">Bisnis</span>
+              <IoIosArrowDown />
+            </li>
             <li className="cursor-pointer hover:text-blue-800 flex items-center space-x-1">
               <span className="mr-[10px]">Fitur</span>
-              <img src={arrow_r} alt="" className="w-[9px] h-[4px]" />
+              <IoIosArrowDown />
             </li>
             <li className="cursor-pointer hover:text-blue-800 flex items-center space-x-1">
               <span className="mr-[10px]">Harga Paket</span>
-              <img src={arrow_r} alt="" className="w-[9px] h-[4px]" />
+              <IoIosArrowDown />
             </li>
             <li className="cursor-pointer hover:text-blue-800 flex items-center space-x-1">
               <span className="mr-[10px]">FAQ</span>
-              <img src={arrow_r} alt="" className="w-[9px] h-[4px]" />
-            </li>
-            <li className="cursor-pointer hover:text-blue-800 flex items-center space-x-1">
-              <span className="mr-[10px]">Bisnis</span>
-              <img src={arrow_r} alt="" className="w-[9px] h-[4px]" />
+              <IoIosArrowDown />
             </li>
           </ul>
         </div>
@@ -47,6 +53,7 @@ const Navbar = () => {
           <Button
             variant="secondary"
             size="kecil"
+            onClick={handleLoginClick}
             className="rounded-[8px] font-serif"
           >
             Login
@@ -55,7 +62,7 @@ const Navbar = () => {
             variant="primary"
             className="text-white rounded-[8px] font-serif"
           >
-            Coba Chatbot Gratis
+            Coba Chatbot Gratis <IoIosArrowRoundForward />
           </Button>
         </div>
       </div>
