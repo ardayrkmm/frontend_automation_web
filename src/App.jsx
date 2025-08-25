@@ -17,9 +17,11 @@ function App() {
           <Route path="/" element={<Home />} />
         </Route>
 
-        {/* Layout Dashboard (terproteksi) */}
+        {/* Layout Dashboard (protected) */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<DashboardLayout />}>
+            {/* index = default child */}
+            <Route index element={<HomeDas />} />
             <Route path="homedas" element={<HomeDas />} />
           </Route>
         </Route>

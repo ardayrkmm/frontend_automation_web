@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import gogel from "../../assets/gogel.png";
 import Buttons from "../../components/common/button";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../features/authSlice"; // pastikan path benar
+import { loginUser } from "../../features/authSlice";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,9 +14,10 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { loading, error, token } = useSelector((state) => state.auth);
+  const { loading, error } = useSelector((state) => state.auth);
 
   const [form, setForm] = useState({ email: "", password: "" });
+  const [successMessage, setSuccessMessage] = useState(""); // 🔹 Tambah state notifikasi
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,9 +26,13 @@ const Login = () => {
   const handleLoginClick = (e) => {
     e.preventDefault();
     dispatch(loginUser(form))
-      .unwrap() // supaya bisa pakai then/catch
+      .unwrap()
       .then(() => {
-        navigate("/dashboard"); // ganti sesuai route setelah login
+        setSuccessMessage("Login Berhasil ✅"); // 🔹 Tampilkan pesan sukses
+        setTimeout(() => {
+          setSuccessMessage(""); // 🔹 Hilangkan pesan setelah 2 detik
+          navigate("/dashboard");
+        }, 2000);
       })
       .catch((err) => {
         console.error("Login gagal:", err);
@@ -36,6 +41,13 @@ const Login = () => {
 
   return (
     <AuthLayout>
+      {/* 🔹 Notifikasi sukses */}
+      {successMessage && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+          {successMessage}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen items-center px-10 gap-10">
         {/* Kiri */}
         <div className="z-10 p-[20px] hidden md:block">

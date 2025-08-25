@@ -1,13 +1,13 @@
 import Buttons from "../common/button";
-import bots from "../../assets/bot.png";
+import bots from "../../assets/logos.png";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
 const Headers = () => {
   return (
-    <div className="flex flex-col-reverse lg:flex-row items-center px-[54px] bg-gradient-to-t from-[#4F9CF9] to-putih justify-between">
+    <div className="flex flex-col-reverse lg:flex-row items-center px-[32px] py-[100px] justify-between">
       <div className="flex-initial w-full lg:w-[750px] p-[20px]">
         <h1 className="text-hitam text-inter font-bold text-[26px] md:text-[26px] lg:text-[60px] xl:text-[60px]">
-          Otomasi Bisnis 24/7 Dengan AI Super Pintar
+          Smart Conversations, Smarter Decisions.
         </h1>
         <p className="text-hitam text-inter font-light text-[18px] md:text-[22px] lg:text-[18px] xl:text-[18px] mb-[30px]">
           Agen AI dengan fast response saja tidak cukup. Di Indonesia, kamu

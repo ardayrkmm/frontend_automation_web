@@ -8,7 +8,7 @@ const DashboardLayout = () => {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
-    <div className="flex h-screen bg-putih text-white">
+    <div className="flex h-screen bg-[#141718] text-white">
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
@@ -32,7 +32,7 @@ const DashboardLayout = () => {
       )}
 
       {/* Main content */}
-      <div className="flex-1 overflow-auto z-10 p-4">
+      <div className="flex-1 overflow-auto z-10 ">
         <Outlet />
       </div>
     </div>

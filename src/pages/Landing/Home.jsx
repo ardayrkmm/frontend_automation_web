@@ -20,11 +20,9 @@ const Home = () => {
         className="absolute top-[300px] left-[20px] transform -translate-x-1/2 w-[200px] sm:w-[200px] md:w-[300px] lg:w-[400px] h-[500px] -z-10"
       />
       <div className="w-full px-0 mx-0">
-        <Headers />
-
-        <div className="bg-gradient-to-t from-[#4F9CF9] to-putih relative ">
-          {/* Section dengan posisi absolute */}
-          <div className="relative top-[-85px]">
+        <div className="bg-gradient-to-r from-[#4F9CF9] via-[#2FD6E2] to-[#44E0C1]">
+          <Headers />
+          <div className="relative">
             <FeaturesSection />
           </div>
 

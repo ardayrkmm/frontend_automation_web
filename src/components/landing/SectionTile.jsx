@@ -1,25 +1,15 @@
 import React from "react";
-import bgOren from "../../assets/il1.png";
 
-const SectionTile = ({ judul, deskripsi }) => {
+const SectionTile = ({ children }) => {
   return (
-    <div className="p-4 max-w-xs text-center sm:text-left">
-      {/* Judul dengan coretan background */}
-      <h2
-        className="text-[18px] sm:text-[20px] text-hitam font-bold inline-block bg-no-repeat bg-left-top"
-        style={{
-          backgroundImage: `url(${bgOren})`,
-          backgroundSize: "contain",
-          padding: "0.2rem 0.5rem",
-        }}
-      >
-        {judul}
-      </h2>
+    <div className="relative group w-[299px] h-[347px]">
+      {/* Ornamen kuning di belakang */}
+      <div className="absolute bottom-[6.5px] -left-[50px] w-[100px] h-[100px] bg-yellow-400 rounded-tl-[50%] scale-0 group-hover:scale-100 transition-transform duration-300 z-0"></div>
 
-      {/* Deskripsi */}
-      <p className="mt-4 text-hitam leading-relaxed text-sm sm:text-base">
-        {deskripsi}
-      </p>
+      {/* Card */}
+      <div className="relative p-[20px] w-full h-full flex flex-col items-center justify-center text-center rounded-[36px] hover:bg-white shadow-md transition-all duration-300  hover:-translate-y-2 z-10">
+        {children}
+      </div>
     </div>
   );
 };

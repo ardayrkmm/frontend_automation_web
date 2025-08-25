@@ -10,14 +10,14 @@ import {
 } from "react-icons/fi";
 import { useState } from "react";
 import avatar from "../../assets/avatar_3.png";
-import logo from "../../assets/Logo.png";
+import logo from "../../assets/logos.png";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const [expanded, setExpanded] = useState(true); // toggle width
 
   return (
     <div
-      className={`fixed z-50 md:static top-0 left-0 h-full bg-[#1e1e1e] transition-all duration-300
+      className={`fixed z-50 md:static top-0 left-0 h-full bg-[#141718] transition-all duration-300
         ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 ${
         expanded ? "w-[260px]" : "w-[80px]"
       }`}
@@ -33,7 +33,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </button>
           </div>
 
-          {/* Logo + toggle expand (desktop) */}
           {/* Logo + toggle expand (desktop) */}
           <div className="hidden md:flex items-center justify-between mb-6">
             <img

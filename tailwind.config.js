@@ -16,7 +16,7 @@ export default {
       colors: {
         biru: "#4F9CF9",
         kuning: "#FDCB02",
-        hitam: "#212529",
+        hitam: "#000000",
         putih: "#ffffff",
         biruGelap: "#043873"
       }
