@@ -95,13 +95,13 @@ const Navbar = () => {
                 variant="secondary"
                 size="kecil"
                 onClick={handleLoginClick}
-                className="rounded-[8px] font-serif"
+                className="rounded-[8px] w-[126px] h-[60px] font-serif"
               >
                 Login
               </Button>
               <Button
                 variant="primary"
-                className="text-white rounded-[8px] font-serif"
+                className="text-white w-[239px] h-[60px] rounded-[8px] font-serif"
               >
                 Coba Chatbot Gratis <IoIosArrowRoundForward />
               </Button>

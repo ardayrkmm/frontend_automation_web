@@ -15,7 +15,8 @@ const Buttons = ({
   const varian = {
     primary:
       "bg-gradient-to-t from-[#063369] to-[#4F9CF9] text-[#ffffff] font-serif",
-    secondary: "bg-kuning hover:bg-kuning text-[#043873] font-serif",
+    secondary:
+      "bg-gradient-to-t from-[#977901] to-[#FDCB02]  hover:bg-kuning text-[#043873] font-serif",
   };
 
   const ukuran = {
