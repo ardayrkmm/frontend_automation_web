@@ -7,6 +7,7 @@ import Home from "./pages/Landing/Home";
 import HomeDas from "./pages/Dashboard/HomeDash";
 import Login from "./pages/Auth/Login";
 import HalamanRegis from "./pages/Auth/Register";
+import Reset from "./pages/Auth/reset";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
 
         {/* Layout Dashboard (protected) */}
         <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route path="/chatbot" element={<DashboardLayout />}>
             {/* index = default child */}
             <Route index element={<HomeDas />} />
             <Route path="homedas" element={<HomeDas />} />
@@ -29,6 +30,7 @@ function App() {
         {/* Auth */}
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<HalamanRegis />} />
+        <Route path="/auth/reset" element={<Reset />} />
       </Routes>
     </BrowserRouter>
   );

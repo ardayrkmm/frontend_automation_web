@@ -4,13 +4,21 @@ import { useState } from "react";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeChatId, setActiveChatId] = useState(null);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-
+  const handleNewChat = () => {
+    setActiveChatId(null); // reset jadi chat baru
+  };
   return (
     <div className="flex h-screen bg-[#141718] text-white">
       {/* Sidebar */}
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar
+        isOpen={sidebarOpen}
+        toggleSidebar={toggleSidebar}
+        onSelectChat={(id) => setActiveChatId(id)}
+        onNewChat={handleNewChat}
+      />
 
       {/* Mobile toggle button */}
       {/* Mobile toggle button */}
@@ -33,7 +41,7 @@ const DashboardLayout = () => {
 
       {/* Main content */}
       <div className="flex-1 overflow-auto z-10 ">
-        <Outlet />
+        <Outlet context={{ activeChatId }} />
       </div>
     </div>
   );

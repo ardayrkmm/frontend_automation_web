@@ -1,9 +1,24 @@
 import Buttons from "../common/button";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import Ilustrasi from "../../assets/ils.png"; // contoh path ilustrasi
+import Ilustrasi2 from "../../assets/BACKGROUND.png"; // contoh path ilustrasi
+
 const ContentSection2 = () => {
   return (
-    <div className="w-full px-4 sm:px-[52px] flex flex-col justify-center items-center h-auto sm:h-[544px] bg-gradient-to-t from-[#E6F1FE] to-[#37A3FF] relative text-center">
-      <div className="p-4 sm:p-[32px] m-auto flex flex-col items-center">
+    <div className="w-full px-4 sm:px-[52px] flex flex-col justify-center items-center h-auto sm:h-[544px] bg-gradient-to-t from-[#ffffff] to-[#0081CF] relative text-center overflow-hidden">
+      {/* ilustrasi background */}
+      <img
+        src={Ilustrasi}
+        alt="Ilustrasi Background"
+        className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[1200px] opacity-90 z-0"
+      />
+      <img
+        src={Ilustrasi2}
+        alt="Ilustrasi s"
+        className="absolute top-[50%] right-[90%] -translate-x-1/2 -translate-y-1/2 w-[80px] sm:w-[150px] opacity-90 z-0"
+      />
+
+      <div className="p-4 sm:p-[32px] m-auto flex flex-col items-center relative z-10">
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-inter text-putih mb-4 leading-tight">
           Bergabunglah Menjadi Agency!
         </h1>

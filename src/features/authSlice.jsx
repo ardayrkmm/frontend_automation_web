@@ -1,13 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import axiosInstance from "../api/axiosInstance";
+import { jwtDecode } from "jwt-decode";
+
 // REGISTER
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://127.0.0.1:5000/api/user/register",
+        "https://blatantly-large-coral.ngrok-free.app/api/user/register",
         userData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -22,7 +24,9 @@ export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
   async (token, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`http://localhost:5000/verify/${token}`);
+      const res = await axios.get(
+        `https://blatantly-large-coral.ngrok-free.app/verify/${token}`
+      );
       return res.data; // misalnya { message: "Email verified successfully" }
     } catch (err) {
       return rejectWithValue(
@@ -41,7 +45,7 @@ export const loginUser = createAsyncThunk(
     const basicAuth = btoa(`${apiKey}:${apiSecret}`);
     try {
       const res = await axiosInstance.post(
-        "http://127.0.0.1:5000/api/user/login",
+        "https://blatantly-large-coral.ngrok-free.app/api/user/login",
         credentials,
         {
           headers: {
@@ -61,6 +65,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: localStorage.getItem("token") || null,
+    user: localStorage.getItem("token")
+      ? jwtDecode(localStorage.getItem("token"))
+      : null,
+
     loading: false,
     error: null,
     message: null,
@@ -100,6 +108,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.access_token;
+        state.user = jwtDecode(action.payload.access_token);
         localStorage.setItem("token", action.payload.access_token);
       })
       .addCase(loginUser.rejected, (state, action) => {

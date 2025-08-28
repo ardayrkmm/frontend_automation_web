@@ -1,6 +1,6 @@
 import React from "react";
-import logo from "../assets/logo.png";
-import bot from "../assets/bot.png";
+import logo from "../assets/logos.png";
+import bot from "../assets/logos1.png";
 
 const Layout = ({ children }) => {
   return (

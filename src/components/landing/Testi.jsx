@@ -35,7 +35,7 @@ const testimonials = [
     role: "Manager IT",
     image: img1,
     stars: 4,
-    bg: "bg-white",
+    bg: "bg-biru",
     textColor: "text-putih",
   },
   {

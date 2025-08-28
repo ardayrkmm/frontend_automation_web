@@ -7,7 +7,7 @@ import Buttons from "../../components/common/button";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../features/authSlice";
 
-const Login = () => {
+const passwordBaru = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePassword = () => setShowPassword(!showPassword);
 
@@ -28,14 +28,14 @@ const Login = () => {
     dispatch(loginUser(form))
       .unwrap()
       .then(() => {
-        setSuccessMessage("Login Berhasil ✅"); // 🔹 Tampilkan pesan sukses
+        setSuccessMessage("Reset Password Berhasil✅"); // 🔹 Tampilkan pesan sukses
         setTimeout(() => {
           setSuccessMessage(""); // 🔹 Hilangkan pesan setelah 2 detik
           navigate("/");
         }, 2000);
       })
       .catch((err) => {
-        console.error("Login gagal:", err);
+        console.error("Reset:", err);
       });
   };
 
@@ -51,7 +51,7 @@ const Login = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen items-center px-10 gap-10">
         {/* Kiri */}
         <div className="z-10 p-[20px] hidden md:block">
-          <h2 className="text-[75px] font-bold mb-4">Sign in to</h2>
+          <h2 className="text-[75px] font-bold mb-4">Password Baru</h2>
           <p className="text-gray-600 mb-6 text-[35px]">
             Enter your email and password to continue.
           </p>
@@ -65,7 +65,7 @@ const Login = () => {
 
         {/* Kanan */}
         <div className="flex flex-col items-center space-y-6">
-          <h2 className="text-3xl font-semibold text-black">Sign in</h2>
+          <h2 className="text-3xl font-semibold text-black">Reset Password</h2>
           <form
             className="flex flex-col items-center space-y-4"
             onSubmit={handleLoginClick}
@@ -78,13 +78,46 @@ const Login = () => {
               placeholder="Enter email or user name"
               className="w-[369px] h-[62px] px-4 py-3 rounded-md bg-gradient-to-r from-[#A7CEFC] to-[#637B96] text-black placeholder-white focus:outline-none"
             />
+            <input
+              type="text"
+              name="OTP"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="Verifications OTP"
+              className="w-[369px] h-[62px] px-4 py-3 rounded-md bg-gradient-to-r from-[#A7CEFC] to-[#637B96] text-black placeholder-white focus:outline-none"
+            />
+            <input
+              type="text"
+              name="Old"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="Old Password"
+              className="w-[369px] h-[62px] px-4 py-3 rounded-md bg-gradient-to-r from-[#A7CEFC] to-[#637B96] text-black placeholder-white focus:outline-none"
+            />
             <div className="relative w-[369px]">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={form.password}
                 onChange={handleChange}
-                placeholder="Password"
+                placeholder="New Password"
+                className="w-full h-[62px] px-4 py-3 rounded-md bg-gradient-to-r from-[#A7CEFC] to-[#637B96] text-black placeholder-white focus:outline-none"
+              />
+              <button
+                type="button"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-700"
+                onClick={togglePassword}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
+            <div className="relative w-[369px]">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="confirm"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="Confirm Password"
                 className="w-full h-[62px] px-4 py-3 rounded-md bg-gradient-to-r from-[#A7CEFC] to-[#637B96] text-black placeholder-white focus:outline-none"
               />
               <button
@@ -96,7 +129,7 @@ const Login = () => {
               </button>
             </div>
             <div className="w-[369px] text-right text-sm text-gray-500">
-              <Link to="/auth/reset" className="hover:underline">
+              <Link to="/reset" className="hover:underline">
                 Forgot password ?
               </Link>
             </div>
@@ -124,4 +157,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default passwordBaru;

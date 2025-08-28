@@ -4,6 +4,9 @@ import {
   IoIosArrowUp,
   IoIosArrowRoundForward,
 } from "react-icons/io";
+import { FaPlus } from "react-icons/fa";
+import { FaMinus } from "react-icons/fa6";
+
 import Buttons from "../common/button";
 
 const FAQ = () => {
@@ -70,25 +73,25 @@ const FAQ = () => {
             .map((item, index) => {
               const realIndex = index * 2; // mapping ke index asli
               return (
-                <div
-                  key={realIndex}
-                  className="w-full rounded-lg shadow-sm bg-white"
-                >
-                  <button
-                    onClick={() => toggleFAQ(realIndex)}
-                    className="w-full flex items-center p-4 text-left text-lg font-medium hover:bg-gray-100 transition"
-                  >
-                    <span className="mr-2">
-                      {openArray[realIndex] ? (
-                        <IoIosArrowUp />
-                      ) : (
-                        <IoIosArrowDown />
-                      )}
-                    </span>
-                    {item.question}
-                  </button>
+                <div key={realIndex} className="w-full">
+                  {/* Pertanyaan */}
+                  <div className="w-full rounded-lg shadow-sm bg-white">
+                    <button
+                      onClick={() => toggleFAQ(realIndex)}
+                      className="w-full flex justify-between items-center p-4 text-left text-lg font-medium hover:bg-gray-100 transition"
+                    >
+                      <span>{item.question}</span>
+                      <span className="ml-2">
+                        {openArray[realIndex] ? <FaMinus /> : <FaPlus />}
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* Jawaban dipisah */}
                   {openArray[realIndex] && (
-                    <div className="p-4 text-hitam">{item.answer}</div>
+                    <div className="mt-2 p-4 rounded-lg text-putih bg-[#2B2D2BF5] flex justify-between items-center">
+                      <span>{item.answer}</span>
+                    </div>
                   )}
                 </div>
               );
@@ -102,25 +105,23 @@ const FAQ = () => {
             .map((item, index) => {
               const realIndex = index * 2 + 1; // mapping ke index asli
               return (
-                <div
-                  key={realIndex}
-                  className="w-full rounded-lg shadow-sm bg-white"
-                >
-                  <button
-                    onClick={() => toggleFAQ(realIndex)}
-                    className="w-full flex items-center p-4 text-left text-lg font-medium hover:bg-gray-100 transition"
-                  >
-                    <span className="mr-2 ">
-                      {openArray[realIndex] ? (
-                        <IoIosArrowUp />
-                      ) : (
-                        <IoIosArrowDown />
-                      )}
-                    </span>
-                    {item.question}
-                  </button>
+                <div key={realIndex} className="w-full">
+                  {/* Pertanyaan */}
+                  <div className="w-full rounded-lg shadow-sm bg-white">
+                    <button
+                      onClick={() => toggleFAQ(realIndex)}
+                      className="w-full flex justify-between items-center p-4 text-left text-lg font-medium hover:bg-gray-100 transition"
+                    >
+                      <span>{item.question}</span>
+                      <span className="ml-2">
+                        {openArray[realIndex] ? <FaMinus /> : <FaPlus />}
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* Jawaban (pisah dari card pertanyaan) */}
                   {openArray[realIndex] && (
-                    <div className="p-4 text-hitam bg-[#2B2D2BF5]">
+                    <div className="mt-2 p-4 rounded-lg text-putih bg-[#2B2D2BF5]">
                       {item.answer}
                     </div>
                   )}
@@ -129,13 +130,6 @@ const FAQ = () => {
             })}
         </div>
       </div>
-
-      <Buttons
-        variant="primary"
-        className="text-white rounded-[8px] font-serif mt-[20px]"
-      >
-        Baca Selengkapnya <IoIosArrowRoundForward />
-      </Buttons>
     </div>
   );
 };

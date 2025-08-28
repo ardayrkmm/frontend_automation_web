@@ -1,67 +1,98 @@
 import { useState, useEffect } from "react";
 import { FiSend } from "react-icons/fi";
 
-const Chatbot = () => {
+const Chatbot = ({ activeChatId, onNewChat }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  // Auto greeting saat pertama kali load
+  // Load pesan saat chatId berubah
   useEffect(() => {
-    const hour = new Date().getHours();
-    let greeting = "Halo!";
-    if (hour < 12) {
-      greeting = "Halo, selamat pagi 👋!";
-    } else if (hour < 18) {
-      greeting = "Halo, selamat siang 👋!";
+    if (activeChatId) {
+      const history = JSON.parse(localStorage.getItem("chatHistory")) || [];
+      const chat = history.find((c) => c.id === activeChatId);
+      if (chat) {
+        setMessages(chat.messages);
+      }
     } else {
-      greeting = "Halo, selamat malam 👋!";
+      // greeting default
+      const hour = new Date().getHours();
+      let greeting = "Halo!";
+      if (hour < 12) greeting = "Halo, selamat pagi 👋!";
+      else if (hour < 18) greeting = "Halo, selamat siang 👋!";
+      else greeting = "Halo, selamat malam 👋!";
+      setMessages([
+        { sender: "ai", text: `${greeting} Boleh tahu siapa nama kamu?` },
+      ]);
     }
-
-    setMessages([
-      { sender: "ai", text: `${greeting} Boleh tahu siapa nama kamu?` },
-    ]);
-  }, []);
+  }, [activeChatId]);
 
   const handleSend = async () => {
     if (input.trim() === "") return;
 
-    // Tambah pesan user ke UI
-    setMessages([...messages, { sender: "user", text: input }]);
-    const userMessage = input;
+    const newMessage = { sender: "user", text: input };
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
     setInput("");
+
+    // Simpan ke localStorage
+    let history = JSON.parse(localStorage.getItem("chatHistory")) || [];
+
+    if (messages.length === 1 && !activeChatId) {
+      // Buat chat baru
+      const newChat = {
+        id: Date.now(),
+        title: input,
+        messages: updatedMessages,
+      };
+      history.push(newChat);
+      localStorage.setItem("chatHistory", JSON.stringify(history));
+      onNewChat && onNewChat(history);
+    } else {
+      // Update chat aktif
+      const idx = history.findIndex((c) => c.id === activeChatId);
+      if (idx !== -1) {
+        history[idx].messages = updatedMessages;
+      } else {
+        history[history.length - 1].messages = updatedMessages;
+      }
+      localStorage.setItem("chatHistory", JSON.stringify(history));
+    }
 
     try {
       const response = await fetch(
         "https://n8n.gitstraining.com/webhook/chatbot44",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ chatInput: userMessage }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chatInput: input }),
         }
       );
 
       const data = await response.json();
+      const aiReply = {
+        sender: "ai",
+        text:
+          data.reply ||
+          data.answer ||
+          data.text ||
+          data.message ||
+          "AI tidak merespon",
+      };
 
-      // Tampilkan balasan AI dari n8n
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "ai",
-          text:
-            data.reply ||
-            data.answer ||
-            data.text ||
-            data.message || // ambil "message" dari JSON
-            "AI tidak merespon",
-        },
-      ]);
-    } catch (error) {
-      setMessages((prev) => [
-        ...prev,
-        { sender: "ai", text: "❌ Error koneksi ke server" },
-      ]);
+      const withAI = [...updatedMessages, aiReply];
+      setMessages(withAI);
+
+      // update localStorage lagi
+      const idx = history.findIndex((c) => c.id === activeChatId);
+      if (idx !== -1) {
+        history[idx].messages = withAI;
+      } else {
+        history[history.length - 1].messages = withAI;
+      }
+      localStorage.setItem("chatHistory", JSON.stringify(history));
+    } catch (err) {
+      const errorMsg = { sender: "ai", text: "❌ Error koneksi ke server" };
+      setMessages((prev) => [...prev, errorMsg]);
     }
   };
 

@@ -4,7 +4,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 
 const Headers = () => {
   return (
-    <div className="flex flex-col-reverse lg:flex-row items-center px-[32px] py-[100px] justify-between">
+    <div className="flex flex-col-reverse lg:flex-row items-center px-[32px] py-[100px] bg-gradient-to-t from-[#44E0C1] via-[#2FD6E2] to-[#4F9CF9] justify-between">
       <div className="flex-initial w-full lg:w-[750px] p-[20px]">
         <h1 className="text-hitam text-inter font-bold text-[26px] md:text-[26px] lg:text-[60px] xl:text-[60px]">
           Smart Conversations, Smarter Decisions.

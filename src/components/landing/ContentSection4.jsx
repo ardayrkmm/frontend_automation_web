@@ -1,23 +1,30 @@
 import React from "react";
 import SectionTile from "./SectionTile";
-import ig from "../../assets/ig.png";
+import broad from "../../assets/sate.png";
+import wa from "../../assets/ws.png";
+import pesan from "../../assets/wa.png";
+import promp from "../../assets/promp.png";
 
 const features = [
   {
-    title: "Omnichannel Platforms",
-    desc: "Otomatisasi percakapan di Instagram! Balas DM secara instan dengan keywords tertentu.",
-  },
-  {
-    title: "Prompt & Flows System",
-    desc: "Selain Prompt sederhana, kamu juga bisa buat Gitbots jadi lebih canggih dengan Logika kompleks menggunakan fitur Flows hanya dengan drag & drop.",
+    title: "Omnichannel Platfroms",
+    gambar: wa,
+    desc: "Nikmati kemudahan mengelola percakapan pelanggan dengan balasan otomatis yang cepat, rapi, dan aktif. 24/7.",
   },
   {
     title: "Manajemen Chat Satu Halaman",
-    desc: "Pantau percakapan Whatsapp, Facebook Messenger, Instagram, Telegram dan Webchat Gitbots hanya dengan satu halaman.",
+    gambar: pesan,
+    desc: "Pantau percakapan Whatsapp, Facebook Messenger, Instagram, Telegram hanya dengan satu halaman.",
   },
   {
-    title: "Kanban Boards CRM",
-    desc: "Lacak prospek dan transaksi secara visual dengan papan Kanban. Tetapkan prioritas, kelola tahapan, dan tutup transaksi lebih cepat dengan drag-and-drop yang intuitif.",
+    title: "Broadcase Pesan",
+    gambar: broad,
+    desc: "Sebarkan pesan promosi bisnismu ke Whatsapp, Instagram, Facebook, Telegram, tanpa takut di banned.",
+  },
+  {
+    title: "Prompt & Flow System",
+    gambar: promp,
+    desc: "Selain Prompt sederhana, kamu juga bisa buat Genius AI jadi lebih canggih dengan Logika kompleks menggunakan fitur Flows hanya dengan drag & drop.",
   },
 ];
 
@@ -34,15 +41,15 @@ export default function FeaturesSection() {
             <div className="relative">
               <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#FFF1DA] rounded-md -z-10"></div>
               <div className="w-14 h-14 flex items-center justify-center rounded-xl">
-                <img src={ig} className="w-[50px]" alt="" />
+                <img src={feature.gambar} className="w-[150px]" alt="" />
               </div>
             </div>
 
-            <h2 className="mt-6 text-xl font-serif font-bold text-[#1e1e1e] leading-snug text-center">
+            <h2 className="mt-6 text-xl font-serif font-bold text-[#1E1D4C] leading-snug text-center">
               {feature.title}
             </h2>
 
-            <p className="mt-4 text-sm text-gray-700 text-center">
+            <p className="mt-4 text-sm text-[#5E6282] text-center">
               {feature.desc}
             </p>
           </SectionTile>

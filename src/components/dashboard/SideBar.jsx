@@ -8,12 +8,31 @@ import {
   FiChevronsLeft,
   FiChevronsRight,
 } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import avatar from "../../assets/avatar_3.png";
 import logo from "../../assets/logos.png";
+import { useSelector } from "react-redux";
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isOpen, toggleSidebar, onSelectChat, onNewChat }) => {
   const [expanded, setExpanded] = useState(true); // toggle width
+
+  const [chatHistory, setChatHistory] = useState([]);
+
+  useEffect(() => {
+    const updateHistory = () => {
+      const saved = JSON.parse(localStorage.getItem("chatHistory")) || [];
+      setChatHistory(saved);
+    };
+
+    window.addEventListener("storage", updateHistory);
+
+    updateHistory(); // load awal
+
+    return () => window.removeEventListener("storage", updateHistory);
+  }, []);
+
+  const { user } = useSelector((state) => state.auth);
+  console.log("Sidebar user =>", user);
 
   return (
     <div
@@ -57,6 +76,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               label="Chats"
               active
               expanded={expanded}
+              onClick={onNewChat}
             />
             <SidebarButton
               icon={<FiSearch />}
@@ -82,23 +102,25 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </div>
 
           {/* Chat list */}
-          {expanded && (
-            <div className="mt-6">
-              <p className="uppercase text-gray-400 text-xs mb-2">Chat list</p>
-              <div className="space-y-2">
-                <SidebarItem label="Welcome" count={48} color="gray" />
-                <SidebarItem
-                  label="UI8 Production"
-                  count={16}
-                  color="purple"
-                  selected
-                />
-                <SidebarItem label="Favorites" count={8} color="blue" />
-                <SidebarItem label="Archived" count={128} color="orange" />
-                <SidebarItem label="New list" icon={<FiPlus />} />
-              </div>
+
+          {/* Chat list dari localStorage */}
+          <div className="mt-6">
+            <p className="uppercase text-gray-400 text-xs mb-2">Chat history</p>
+            <div className="space-y-2">
+              {chatHistory.map((chat) => (
+                <div
+                  key={chat.id}
+                  onClick={() => onSelectChat(chat.id)}
+                  className="flex items-center justify-between px-3 py-2 rounded cursor-pointer hover:bg-[#2e2e2e]"
+                >
+                  <div className="flex items-center gap-2">
+                    <FiMessageSquare />
+                    <span>{chat.title}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
         </div>
 
         {/* Bottom */}
@@ -107,16 +129,15 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <div className="flex items-center gap-2 p-3 rounded bg-[#2e2e2e] mb-2">
               <img src={avatar} className="w-8 h-8 rounded-full" alt="User" />
               <div className="flex-1">
-                <p className="text-sm font-medium">Tran Mau Tri Tam</p>
-                <p className="text-xs text-gray-400">tam@ui8.net</p>
+                <p className="text-sm font-medium">
+                  {user?.name || "Guest"} {/* ✅ dynamic */}
+                </p>
+                <p className="text-xs text-gray-400">
+                  {user?.email || "Belum login"} {/* ✅ dynamic */}
+                </p>
               </div>
-              <span className="text-[10px] bg-green-600 px-2 py-0.5 rounded">
-                Free
-              </span>
             </div>
-            <button className="w-full bg-[#333] text-sm py-2 rounded mb-3 hover:bg-[#444]">
-              Upgrade to Pro
-            </button>
+
             <div className="flex justify-between px-3 py-2 bg-[#2e2e2e] rounded">
               <button className="text-white text-xs">Light</button>
               <button className="text-gray-500 text-xs">Dark</button>
@@ -131,9 +152,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 };
 
 // Sidebar Button
-const SidebarButton = ({ icon, label, shortcut, active, expanded = true }) => {
+const SidebarButton = ({
+  icon,
+  label,
+  shortcut,
+  active,
+  expanded = true,
+  onClick,
+}) => {
   return (
     <button
+      onClick={onClick}
       className={`flex items-center gap-3 px-3 py-2 w-full rounded ${
         active ? "bg-[#2e2e2e]" : "hover:bg-[#2e2e2e]"
       }`}
