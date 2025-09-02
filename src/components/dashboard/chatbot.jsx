@@ -1,99 +1,36 @@
 import { useState, useEffect } from "react";
 import { FiSend } from "react-icons/fi";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addUserMessage,
+  sendMessage,
+  addBotMessage,
+  clearChat,
+} from "../../features/chatbotSlice";
 
-const Chatbot = ({ activeChatId, onNewChat }) => {
-  const [messages, setMessages] = useState([]);
+const Chatbot = () => {
   const [input, setInput] = useState("");
+  const { messages, loading } = useSelector((state) => state.chatbot);
+  const dispatch = useDispatch();
 
-  // Load pesan saat chatId berubah
   useEffect(() => {
-    if (activeChatId) {
-      const history = JSON.parse(localStorage.getItem("chatHistory")) || [];
-      const chat = history.find((c) => c.id === activeChatId);
-      if (chat) {
-        setMessages(chat.messages);
-      }
-    } else {
-      // greeting default
+    if (messages.length === 0) {
       const hour = new Date().getHours();
-      let greeting = "Halo!";
+      let greeting = "Halo 👋!";
       if (hour < 12) greeting = "Halo, selamat pagi 👋!";
       else if (hour < 18) greeting = "Halo, selamat siang 👋!";
       else greeting = "Halo, selamat malam 👋!";
-      setMessages([
-        { sender: "ai", text: `${greeting} Boleh tahu siapa nama kamu?` },
-      ]);
+
+      dispatch(clearChat()); // pastikan kosong
+      dispatch(addBotMessage(`${greeting} Boleh tahu siapa nama kamu?`));
     }
-  }, [activeChatId]);
+  }, [dispatch]);
 
-  const handleSend = async () => {
-    if (input.trim() === "") return;
-
-    const newMessage = { sender: "user", text: input };
-    const updatedMessages = [...messages, newMessage];
-    setMessages(updatedMessages);
+  const handleSend = () => {
+    if (!input.trim()) return;
+    dispatch(addUserMessage(input));
+    dispatch(sendMessage({ message: input }));
     setInput("");
-
-    // Simpan ke localStorage
-    let history = JSON.parse(localStorage.getItem("chatHistory")) || [];
-
-    if (messages.length === 1 && !activeChatId) {
-      // Buat chat baru
-      const newChat = {
-        id: Date.now(),
-        title: input,
-        messages: updatedMessages,
-      };
-      history.push(newChat);
-      localStorage.setItem("chatHistory", JSON.stringify(history));
-      onNewChat && onNewChat(history);
-    } else {
-      // Update chat aktif
-      const idx = history.findIndex((c) => c.id === activeChatId);
-      if (idx !== -1) {
-        history[idx].messages = updatedMessages;
-      } else {
-        history[history.length - 1].messages = updatedMessages;
-      }
-      localStorage.setItem("chatHistory", JSON.stringify(history));
-    }
-
-    try {
-      const response = await fetch(
-        "https://n8n.gitstraining.com/webhook/chatbot44",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chatInput: input }),
-        }
-      );
-
-      const data = await response.json();
-      const aiReply = {
-        sender: "ai",
-        text:
-          data.reply ||
-          data.answer ||
-          data.text ||
-          data.message ||
-          "AI tidak merespon",
-      };
-
-      const withAI = [...updatedMessages, aiReply];
-      setMessages(withAI);
-
-      // update localStorage lagi
-      const idx = history.findIndex((c) => c.id === activeChatId);
-      if (idx !== -1) {
-        history[idx].messages = withAI;
-      } else {
-        history[history.length - 1].messages = withAI;
-      }
-      localStorage.setItem("chatHistory", JSON.stringify(history));
-    } catch (err) {
-      const errorMsg = { sender: "ai", text: "❌ Error koneksi ke server" };
-      setMessages((prev) => [...prev, errorMsg]);
-    }
   };
 
   return (
@@ -120,6 +57,11 @@ const Chatbot = ({ activeChatId, onNewChat }) => {
             {msg.text}
           </div>
         ))}
+        {loading && (
+          <div className="p-3 rounded-lg max-w-xs bg-gray-300 text-gray-600 mr-auto">
+            Sedang mengetik...
+          </div>
+        )}
       </div>
 
       {/* Input */}

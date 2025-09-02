@@ -1,3 +1,5 @@
+import scrollbar from 'tailwind-scrollbar';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -20,9 +22,12 @@ export default {
         putih: "#ffffff",
         biruGelap: "#043873"
       }
-
     },
   },
-  plugins: [],
+  plugins: [
+    scrollbar({ nocompatible: true }), // ✅ pakai import, bukan require
+  ],
+  variants: {
+    scrollbar: ['rounded'],
+  },
 }
-

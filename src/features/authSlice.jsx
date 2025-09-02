@@ -37,24 +37,29 @@ export const verifyEmail = createAsyncThunk(
 );
 
 // LOGIN
+// LOGIN
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (credentials, { rejectWithValue }) => {
-    const apiKey = "your_api_key";
-    const apiSecret = "my_api_secret";
-    const basicAuth = btoa(`${apiKey}:${apiSecret}`);
     try {
+      // Sesuaikan dengan Config backend kamu
+      const apiKey = "my-secure-api-key"; // dari Config.API_KEY
+      const basicUser = "admin"; // dari Config.BASIC_AUTH_USERNAME
+      const basicPass = "chatbot11"; // dari Config.BASIC_AUTH_PASSWORD
+      const basicAuth = btoa(`${basicUser}:${basicPass}`);
+
       const res = await axiosInstance.post(
         "https://blatantly-large-coral.ngrok-free.app/api/user/login",
         credentials,
         {
           headers: {
+            "x-api-key": apiKey,
             Authorization: `Basic ${basicAuth}`,
             "Content-Type": "application/json",
           },
         }
       );
-      return res.data; // { access_token }
+      return res.data; // { access_token, session_id, ... }
     } catch (err) {
       return rejectWithValue(err.response?.data?.msg || "Login failed");
     }
@@ -106,10 +111,12 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        const token = action.payload.access_token || action.payload.token;
+
         state.loading = false;
-        state.token = action.payload.access_token;
-        state.user = jwtDecode(action.payload.access_token);
-        localStorage.setItem("token", action.payload.access_token);
+        state.token = token;
+        state.user = jwtDecode(token);
+        localStorage.setItem("token", token);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;

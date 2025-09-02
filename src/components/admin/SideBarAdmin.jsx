@@ -8,28 +8,13 @@ import {
   FiChevronsLeft,
   FiChevronsRight,
 } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import avatar from "../../assets/avatar_3.png";
 import logo from "../../assets/logos.png";
 import { useSelector } from "react-redux";
 
-const Sidebar = ({ isOpen, toggleSidebar, onSelectChat, onNewChat }) => {
+const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
   const [expanded, setExpanded] = useState(true); // toggle width
-
-  const [chatHistory, setChatHistory] = useState([]);
-
-  useEffect(() => {
-    const updateHistory = () => {
-      const saved = JSON.parse(localStorage.getItem("chatHistory")) || [];
-      setChatHistory(saved);
-    };
-
-    window.addEventListener("storage", updateHistory);
-
-    updateHistory(); // load awal
-
-    return () => window.removeEventListener("storage", updateHistory);
-  }, []);
 
   const { user } = useSelector((state) => state.auth);
   console.log("Sidebar user =>", user);
@@ -73,54 +58,21 @@ const Sidebar = ({ isOpen, toggleSidebar, onSelectChat, onNewChat }) => {
           <div className="space-y-2">
             <SidebarButton
               icon={<FiMessageSquare />}
-              label="Chats"
+              label="Dashboard"
               active
               expanded={expanded}
-              onClick={onNewChat}
             />
             <SidebarButton
               icon={<FiSearch />}
-              label="Search"
+              label="Pengguna"
               shortcut="⌘ F"
               expanded={expanded}
             />
             <SidebarButton
               icon={<FiBox />}
-              label="Manage subscription"
+              label="History Chat User"
               expanded={expanded}
             />
-            <SidebarButton
-              icon={<FiSettings />}
-              label="Updates & FAQ"
-              expanded={expanded}
-            />
-            <SidebarButton
-              icon={<FiSettings />}
-              label="Settings"
-              expanded={expanded}
-            />
-          </div>
-
-          {/* Chat list */}
-
-          {/* Chat list dari localStorage */}
-          {/* Chat list dari localStorage */}
-          <div className="mt-6 flex flex-col">
-            <p className="uppercase text-gray-400 text-xs mb-2">Chat history</p>
-            <div className="overflow-y-auto max-h-64 pr-2 scrollbar-thin scrollbar-thumb-biru scrollbar-track-transparent">
-              {chatHistory.map((chat) => (
-                <div
-                  key={chat.id}
-                  onClick={() => onSelectChat(chat.id)}
-                  className="flex items-center justify-between px-3 py-2 rounded cursor-pointer hover:bg-[#2e2e2e]"
-                >
-                  <div className="flex items-center gap-2">
-                    <FiMessageSquare />
-                    <span className="truncate max-w-[160px]">{chat.title}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
@@ -210,4 +162,4 @@ const SidebarItem = ({ label, count, color, selected, icon }) => {
   );
 };
 
-export default Sidebar;
+export default SidebarAdmin;
