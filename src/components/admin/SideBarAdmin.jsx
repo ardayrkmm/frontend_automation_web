@@ -12,6 +12,7 @@ import { useState } from "react";
 import avatar from "../../assets/avatar_3.png";
 import logo from "../../assets/logos.png";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
   const [expanded, setExpanded] = useState(true); // toggle width
@@ -60,6 +61,7 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
               icon={<FiMessageSquare />}
               label="Dashboard"
               active
+              path="/admin/dashboard"
               expanded={expanded}
             />
             <SidebarButton
@@ -71,6 +73,7 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
             <SidebarButton
               icon={<FiBox />}
               label="History Chat User"
+              path="/admin/history"
               expanded={expanded}
             />
           </div>
@@ -111,11 +114,13 @@ const SidebarButton = ({
   shortcut,
   active,
   expanded = true,
-  onClick,
+  path,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <button
-      onClick={onClick}
+      onClick={() => navigate(path)}
       className={`flex items-center gap-3 px-3 py-2 w-full rounded ${
         active ? "bg-[#2e2e2e]" : "hover:bg-[#2e2e2e]"
       }`}

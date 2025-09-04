@@ -11,6 +11,7 @@ import Reset from "./pages/Auth/reset";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/DashBoard";
 import DashboardAdmin from "./pages/admin/DashBoard";
+import AdminChats from "./pages/admin/ChatHistory";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           {/* index = default child */}
           <Route index element={<DashboardAdmin />} />
           <Route path="dashboard" element={<DashboardAdmin />} />
+          <Route path="history" element={<AdminChats />} />
         </Route>
 
         {/* Auth */}
