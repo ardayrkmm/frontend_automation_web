@@ -25,7 +25,7 @@ export default {
     },
   },
   plugins: [
-    scrollbar({ nocompatible: true }), // ✅ pakai import, bukan require
+    scrollbar(), // ✅ pakai import, bukan require
   ],
   variants: {
     scrollbar: ['rounded'],
