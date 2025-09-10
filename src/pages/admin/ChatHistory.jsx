@@ -21,18 +21,18 @@ export default function AdminChats() {
         <table className="table-auto border-collapse w-full border border-gray-300">
           <thead>
             <tr className="bg-black">
-              <th className="p-2 border">User ID</th>
+              <th className="p-2 border">Nama User</th>
               <th className="p-2 border">Session ID</th>
-              <th className="p-2 border">Message</th>
-              <th className="p-2 border">Response</th>
-              <th className="p-2 border">Created At</th>
+              <th className="p-2 border">Pesan</th>
+              <th className="p-2 border">Jawaban</th>
+              <th className="p-2 border">Waktu</th>
             </tr>
           </thead>
           <tbody>
             {Array.isArray(chats) && chats.length > 0 ? (
               chats.map((chat) => (
                 <tr key={chat.id} className="hover:bg-gray-50">
-                  <td className="p-2 border">{chat.user_id}</td>
+                  <td className="p-2 border">{chat.user_name}</td>
                   <td className="p-2 border">{chat.session_id}</td>
                   <td className="p-2 border">{chat.message}</td>
                   <td className="p-2 border">{chat.response}</td>

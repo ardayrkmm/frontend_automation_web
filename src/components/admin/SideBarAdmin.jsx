@@ -13,10 +13,10 @@ import avatar from "../../assets/avatar_3.png";
 import logo from "../../assets/logos.png";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
   const [expanded, setExpanded] = useState(true); // toggle width
-
+  const [historyOpen, setHistoryOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
   console.log("Sidebar user =>", user);
 
@@ -70,12 +70,39 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
               shortcut="⌘ F"
               expanded={expanded}
             />
-            <SidebarButton
-              icon={<FiBox />}
-              label="History Chat User"
-              path="/admin/history"
-              expanded={expanded}
-            />
+            <button
+              onClick={() => setHistoryOpen(!historyOpen)}
+              className={`flex items-center justify-between px-3 py-2 w-full rounded ${
+                historyOpen ? "bg-[#2e2e2e]" : "hover:bg-[#2e2e2e]"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <FiBox />
+                {expanded && <span>History Chat User</span>}
+              </div>
+              {expanded && (historyOpen ? <FiChevronUp /> : <FiChevronDown />)}
+            </button>
+
+            {/* Submenu */}
+            {historyOpen && expanded && (
+              <div className="ml-8 space-y-1">
+                <SidebarButton
+                  label="Website"
+                  path="/admin/history/website"
+                  expanded={expanded}
+                />
+                <SidebarButton
+                  label="WhatsApp"
+                  path="/admin/history/whatsapp"
+                  expanded={expanded}
+                />
+                <SidebarButton
+                  label="Telegram"
+                  path="/admin/history/telegram"
+                  expanded={expanded}
+                />
+              </div>
+            )}
           </div>
         </div>
 

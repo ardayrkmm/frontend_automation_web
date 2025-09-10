@@ -5,9 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import gogel from "../../assets/gogel.png";
 import Buttons from "../../components/common/button";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../features/authSlice";
 
-const RegisterAdmin = () => {
+import { registerAdmin } from "../../features/adminAuth";
+
+const HRegisterAdmin = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [formData, setFormData] = React.useState({
     name: "",
@@ -35,7 +36,6 @@ const RegisterAdmin = () => {
 
   // ✅ Regex Validasi
   const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
-  const validatePhone = (phone) => /^[0-9]{10,15}$/.test(phone);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,9 +44,7 @@ const RegisterAdmin = () => {
     if (!validateEmail(formData.email)) {
       errors.email = "Format email tidak valid!";
     }
-    if (!validatePhone(formData.phone_number)) {
-      errors.phone_number = "Nomor HP harus 10–15 digit angka.";
-    }
+
     if (formData.password !== formData.confirmPassword) {
       errors.confirmPassword = "Password dan konfirmasi tidak sama!";
     }
@@ -58,18 +56,18 @@ const RegisterAdmin = () => {
     const payload = {
       name: formData.name,
       email: formData.email,
-      phone_number: formData.phone_number,
+
       password: formData.password,
     };
 
     try {
-      await dispatch(registerUser(payload))
+      await dispatch(registerAdmin(payload))
         .unwrap()
         .then(() => {
           setSuccessMessage("Register Berhasil Silahkan Cek Email✅"); // 🔹 Tampilkan pesan sukses
           setTimeout(() => {
             setSuccessMessage(""); // 🔹 Hilangkan pesan setelah 2 detik
-            navigate("/auth/login");
+            navigate("/auth/admin/login");
           }, 6000);
         });
 
@@ -138,24 +136,6 @@ const RegisterAdmin = () => {
             />
 
             {/* Phone */}
-            <input
-              type="text"
-              name="phone_number"
-              placeholder="Enter Contact Number"
-              value={formData.phone_number}
-              onChange={handleChange}
-              className={`w-[369px] h-[62px] px-4 py-3 rounded-md 
-                bg-gradient-to-r from-[#A7CEFC] to-[#637B96] text-black 
-                placeholder-white focus:outline-none
-                ${
-                  validationErrors.phone_number ? "border-2 border-red-500" : ""
-                }`}
-            />
-            {validationErrors.phone_number && (
-              <p className="text-red-500 text-sm">
-                {validationErrors.phone_number}
-              </p>
-            )}
 
             {/* Password */}
             <div className="relative w-[369px]">
@@ -247,4 +227,4 @@ const RegisterAdmin = () => {
   );
 };
 
-export default RegisterAdmin;
+export default HRegisterAdmin;

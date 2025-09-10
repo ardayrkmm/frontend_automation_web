@@ -12,6 +12,9 @@ import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/DashBoard";
 import DashboardAdmin from "./pages/admin/DashBoard";
 import AdminChats from "./pages/admin/ChatHistory";
+import LoginAdmin from "./pages/Auth/LoginAdmin";
+
+import HRegisterAdmin from "./pages/Auth/RegisterAdmin";
 
 function App() {
   return (
@@ -36,13 +39,15 @@ function App() {
           {/* index = default child */}
           <Route index element={<DashboardAdmin />} />
           <Route path="dashboard" element={<DashboardAdmin />} />
-          <Route path="history" element={<AdminChats />} />
+          <Route path="history/website" element={<AdminChats />} />
         </Route>
 
         {/* Auth */}
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<HalamanRegis />} />
         <Route path="/auth/reset" element={<Reset />} />
+        <Route path="/auth/admin/login" element={<LoginAdmin />} />
+        <Route path="/auth/admin/register" element={<HRegisterAdmin />} />
       </Routes>
     </BrowserRouter>
   );

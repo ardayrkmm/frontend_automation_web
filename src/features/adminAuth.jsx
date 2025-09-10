@@ -4,12 +4,12 @@ import axiosInstance from "../api/axiosInstance";
 import { jwtDecode } from "jwt-decode";
 
 // REGISTER
-export const registerUser = createAsyncThunk(
+export const registerAdmin = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://blatantly-large-coral.ngrok-free.app/api/user/register",
+        "https://blatantly-large-coral.ngrok-free.app/api/admin/register",
         userData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -38,7 +38,7 @@ export const verifyEmail = createAsyncThunk(
 
 // LOGIN
 // LOGIN
-export const loginUser = createAsyncThunk(
+export const loginAdmin = createAsyncThunk(
   "auth/loginUser",
   async (credentials, { rejectWithValue }) => {
     try {
@@ -48,7 +48,7 @@ export const loginUser = createAsyncThunk(
       const basicAuth = btoa(`${basicUser}:${basicPass}`);
 
       const res = await axiosInstance.post(
-        "https://blatantly-large-coral.ngrok-free.app/api/user/login",
+        "https://blatantly-large-coral.ngrok-free.app/api/admin/login",
         credentials,
         {
           headers: {
@@ -90,26 +90,26 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // REGISTER
-      .addCase(registerUser.pending, (state) => {
+      .addCase(registerAdmin.pending, (state) => {
         state.loading = true;
         state.error = null;
         state.message = null;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerAdmin.fulfilled, (state, action) => {
         state.loading = false;
         state.message = action.payload.msg;
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(registerAdmin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
 
       // LOGIN
-      .addCase(loginUser.pending, (state) => {
+      .addCase(loginAdmin.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
+      .addCase(loginAdmin.fulfilled, (state, action) => {
         const token = action.payload.access_token || action.payload.token;
 
         state.loading = false;
@@ -117,7 +117,7 @@ const authSlice = createSlice({
         state.user = jwtDecode(token);
         localStorage.setItem("token", token);
       })
-      .addCase(loginUser.rejected, (state, action) => {
+      .addCase(loginAdmin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

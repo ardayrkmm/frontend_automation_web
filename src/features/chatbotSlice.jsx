@@ -54,6 +54,7 @@ const chatbotSlice = createSlice({
         if (reply && reply !== "No response") {
           state.messages.push({ sender: "ai", text: reply });
         }
+
         state.session_id = action.payload.session_id;
       })
 
