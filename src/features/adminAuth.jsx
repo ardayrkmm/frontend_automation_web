@@ -9,7 +9,7 @@ export const registerAdmin = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://blatantly-large-coral.ngrok-free.app/api/admin/register",
+        "https://chatbot.gitstraining.com/api/admin/register",
         userData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -25,7 +25,7 @@ export const verifyEmail = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `https://blatantly-large-coral.ngrok-free.app/verify/${token}`
+        `https://chatbot.gitstraining.com/verify/${token}`
       );
       return res.data; // misalnya { message: "Email verified successfully" }
     } catch (err) {
@@ -48,7 +48,7 @@ export const loginAdmin = createAsyncThunk(
       const basicAuth = btoa(`${basicUser}:${basicPass}`);
 
       const res = await axiosInstance.post(
-        "https://blatantly-large-coral.ngrok-free.app/api/admin/login",
+        "https://chatbot.gitstraining.com/api/admin/login",
         credentials,
         {
           headers: {
