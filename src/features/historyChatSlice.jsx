@@ -9,11 +9,14 @@ export const fetchChats = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://127.0.0.1:5000/api/admin/chats", {
-        headers: {
-          Authorization: `Bearer ${token}`, // kirim JWT token
-        },
-      });
+      const res = await axios.get(
+        "https://chatbot.gitstraining.com/api/admin/chats",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // kirim JWT token
+          },
+        }
+      );
       console.log("API response =>", res.data);
       return res.data;
     } catch (err) {
