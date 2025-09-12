@@ -9,13 +9,19 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://blatantly-large-coral.ngrok-free.app/api/user/register",
+        "https://chatbot.gitstraining.com/api/user/register",
         userData,
         { headers: { "Content-Type": "application/json" } }
       );
+
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.msg || "Register failed");
+      const message =
+        err.response?.data?.msg ||
+        err.response?.data?.error ||
+        err.message ||
+        "Registrasi gagal!";
+      return rejectWithValue(message);
     }
   }
 );
@@ -25,7 +31,7 @@ export const verifyEmail = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `https://blatantly-large-coral.ngrok-free.app/verify/${token}`
+        `https://chatbot.gitstraining.com/verify/${token}`
       );
       return res.data; // misalnya { message: "Email verified successfully" }
     } catch (err) {
@@ -48,7 +54,7 @@ export const loginUser = createAsyncThunk(
       const basicAuth = btoa(`${basicUser}:${basicPass}`);
 
       const res = await axiosInstance.post(
-        "https://blatantly-large-coral.ngrok-free.app/api/user/login",
+        "https://chatbot.gitstraining.com/api/user/login",
         credentials,
         {
           headers: {
@@ -60,7 +66,12 @@ export const loginUser = createAsyncThunk(
       );
       return res.data; // { access_token, session_id, ... }
     } catch (err) {
-      return rejectWithValue(err.response?.data?.msg || "Login failed");
+      const message =
+        err.response?.data?.msg ||
+        err.response?.data?.error ||
+        err.message ||
+        "Registrasi gagal!";
+      return rejectWithValue(message);
     }
   }
 );

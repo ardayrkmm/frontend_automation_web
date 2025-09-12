@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "https://blatantly-large-coral.ngrok-free.app/api/",
+    baseURL: "https://chatbot.gitstraining.com/api/",
     headers: {
         "Content-Type": "application/json",
     },
