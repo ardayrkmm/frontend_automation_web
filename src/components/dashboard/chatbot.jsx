@@ -11,6 +11,7 @@ import {
 const Chatbot = () => {
   const [input, setInput] = useState("");
   const { messages, loading } = useSelector((state) => state.chatbot);
+  const { token } = useSelector((state) => state.auth); // ✅ cek login
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +30,15 @@ const Chatbot = () => {
   const handleSend = () => {
     if (!input.trim()) return;
     dispatch(addUserMessage(input));
-    dispatch(sendMessage({ message: input }));
+
+    // cek login / guest
+    dispatch(
+      sendMessage({
+        message: input,
+        isGuest: !token, // kalau ga ada token = guest
+      })
+    );
+
     setInput("");
   };
 
@@ -41,6 +50,11 @@ const Chatbot = () => {
         <p className="text-gray-500">
           Chat with the smartest AI - Experience the power of AI with us
         </p>
+        {!token && (
+          <span className="text-red-500 text-sm">
+            Mode: Coba Gratis (maks 5 chat) 🚀
+          </span>
+        )}
       </div>
 
       {/* Chat area */}

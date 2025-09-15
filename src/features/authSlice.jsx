@@ -2,14 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import axiosInstance from "../api/axiosInstance";
 import { jwtDecode } from "jwt-decode";
+import Config from "../api/config";
 
-// REGISTER
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://chatbot.gitstraining.com/api/user/register",
+        `${Config.API_BASE_URL}/user/register`,
         userData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -54,7 +54,7 @@ export const loginUser = createAsyncThunk(
       const basicAuth = btoa(`${basicUser}:${basicPass}`);
 
       const res = await axiosInstance.post(
-        "https://chatbot.gitstraining.com/api/user/login",
+        `${Config.API_BASE_URL}/user/login`,
         credentials,
         {
           headers: {

@@ -1,6 +1,7 @@
 // src/features/chatSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Config from "../api/config";
 
 // ambil token dari localStorage (hasil login)
 
@@ -9,14 +10,11 @@ export const fetchChats = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(
-        "https://chatbot.gitstraining.com/api/admin/chats",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // kirim JWT token
-          },
-        }
-      );
+      const res = await axios.get(`${Config.API_BASE_URL}/admin/chats `, {
+        headers: {
+          Authorization: `Bearer ${token}`, // kirim JWT token
+        },
+      });
       console.log("API response =>", res.data);
       return res.data;
     } catch (err) {

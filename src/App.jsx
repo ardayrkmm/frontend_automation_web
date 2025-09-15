@@ -25,15 +25,11 @@ function App() {
           <Route path="/" element={<Home />} />
         </Route>
 
-        {/* Layout Dashboard (protected) */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/chatbot" element={<DashboardLayout />}>
-            {/* index = default child */}
-            <Route index element={<HomeDas />} />
-            <Route path="homedas" element={<HomeDas />} />
-          </Route>
+        <Route path="/chatbot" element={<DashboardLayout />}>
+          {/* index = default child */}
+          <Route index element={<HomeDas />} />
+          <Route path="homedas" element={<HomeDas />} />
         </Route>
-        {/*Admin*/}
 
         <Route path="/admin" element={<AdminLayout />}>
           {/* index = default child */}

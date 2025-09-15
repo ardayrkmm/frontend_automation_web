@@ -23,6 +23,8 @@ const Navbar = () => {
     navigate("/auth/login"); // ✅ setelah logout, balik ke login
   };
 
+  const chatBotClick = () => navigate("/chatbot");
+
   const menus = [
     { name: "Bisnis", path: "/bisnis" },
     { name: "Fitur", path: "/fitur" },
@@ -101,6 +103,7 @@ const Navbar = () => {
               </Button>
               <Button
                 variant="primary"
+                onClick={chatBotClick}
                 className="text-white w-[239px] h-[60px] rounded-[8px] font-serif"
               >
                 Coba Chatbot Gratis <IoIosArrowRoundForward />
@@ -151,6 +154,7 @@ const Navbar = () => {
                 </Button>
                 <Button
                   variant="primary"
+                  onClick={chatBotClick}
                   className="w-full text-white rounded-[8px] font-serif"
                 >
                   Coba Chatbot Gratis
