@@ -1,5 +1,11 @@
-import Chatbot from "../../components/dashboard/chatbot";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchChatsPerDay,
+  fetchChatsPerHour,
+  fetchGuestVsRegistered,
+} from "../../features/adminDashSlice";
+
 import {
   LineChart,
   Line,
@@ -11,155 +17,93 @@ import {
   BarChart,
   Bar,
   Legend,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
-import { Users, MessageSquare } from "lucide-react";
 
-// Dummy data
-const weeklySessions = [
-  { label: "W1", sessions: 120 },
-  { label: "W2", sessions: 180 },
-  { label: "W3", sessions: 150 },
-  { label: "W4", sessions: 210 },
-  { label: "W5", sessions: 260 },
-  { label: "W6", sessions: 230 },
-  { label: "W7", sessions: 290 },
-  { label: "W8", sessions: 310 },
-];
-
-const monthlyNewUsers = [
-  { month: "Jan", newUsers: 42 },
-  { month: "Feb", newUsers: 55 },
-  { month: "Mar", newUsers: 61 },
-  { month: "Apr", newUsers: 48 },
-  { month: "May", newUsers: 70 },
-  { month: "Jun", newUsers: 65 },
-  { month: "Jul", newUsers: 72 },
-  { month: "Aug", newUsers: 80 },
-  { month: "Sep", newUsers: 60 },
-  { month: "Oct", newUsers: 68 },
-  { month: "Nov", newUsers: 74 },
-  { month: "Dec", newUsers: 90 },
-];
-
-const totalUsers = monthlyNewUsers.reduce((acc, m) => acc + m.newUsers, 1000); // start with a base to simulate existing users
 const DashboardAdmin = () => {
+  const dispatch = useDispatch();
+  const { perDay, perHour, guestVsRegistered, loading, error } = useSelector(
+    (state) => state.chatStats
+  );
+
+  useEffect(() => {
+    dispatch(fetchChatsPerDay());
+    dispatch(fetchChatsPerHour());
+    dispatch(fetchGuestVsRegistered());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-gray-600">
-              Total Pengguna
-            </h3>
-            <div className="rounded-xl bg-gray-50 p-2">
-              <Users className="h-5 w-5 text-gray-700" />
-            </div>
-          </div>
-          <p className="mt-3 text-3xl font-semibold">
-            {totalUsers.toLocaleString()}
-          </p>
-          <p className="mt-1 text-xs text-gray-500">
-            Akumulasi hingga bulan ini
-          </p>
-        </div>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-xl font-bold mb-4">📊 Dashboard Admin</h1>
 
-        <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-gray-600">
-              Sesi Chat (Minggu Ini)
-            </h3>
-            <div className="rounded-xl bg-gray-50 p-2">
-              <MessageSquare className="h-5 w-5 text-gray-700" />
-            </div>
-          </div>
-          <p className="mt-3 text-3xl font-semibold">
-            {weeklySessions[weeklySessions.length - 1].sessions}
-          </p>
-          <p className="mt-1 text-xs text-gray-500">
-            Perbandingan dengan minggu sebelumnya tersedia di grafik
-          </p>
-        </div>
+      {/* Line Chart: Chat per Day */}
+      <div className="mb-6 rounded-2xl bg-white p-6 shadow">
+        <h3 className="mb-2 text-hitam font-semibold">Jumlah Chat per Hari</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={perDay}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="tanggal" />
+            <YAxis />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="total_chat"
+              stroke="#8884d8"
+              strokeWidth={2}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
 
-        <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-gray-600">
-              User Baru (Bulan Ini)
-            </h3>
-            <div className="rounded-xl bg-gray-50 p-2">
-              <Users className="h-5 w-5 text-gray-700" />
-            </div>
-          </div>
-          <p className="mt-3 text-3xl font-semibold">
-            {monthlyNewUsers[new Date().getMonth()].newUsers}
-          </p>
-          <p className="mt-1 text-xs text-gray-500">
-            Total pendaftar baru di bulan berjalan
-          </p>
+      {/* Bar Chart: Chat per Hour */}
+      <div className="mb-6 rounded-2xl bg-white p-6 shadow">
+        <h3 className="mb-2 font-semibold text-hitam">
+          Distribusi Chat per Jam
+        </h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={perHour}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="jam" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="total_chat" fill="#82ca9d" />
+          </BarChart>
+        </ResponsiveContainer>
+
+        {/* Teks tambahan bawah chart */}
+        <div className="mt-4 flex justify-between text-sm text-gray-600">
+          <span>Tanggal: {new Date().toLocaleDateString()}</span>
+          <span>
+            Total Chat: {perHour.reduce((acc, cur) => acc + cur.total_chat, 0)}
+          </span>
         </div>
       </div>
 
-      {/* Charts */}
-      <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-5">
-        {/* Line Chart: Weekly Sessions */}
-        <div className="xl:col-span-3 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-base font-semibold">
-              Jumlah Sesi Chat per Minggu
-            </h3>
-            <span className="text-xs text-gray-500">8 minggu terakhir</span>
-          </div>
-          <div className="h-72 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={weeklySessions}
-                margin={{ top: 5, right: 16, bottom: 5, left: 0 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="label" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="sessions"
-                  strokeWidth={2}
-                  dot={false}
-                  name="Sesi"
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Bar Chart: New Users per Month */}
-        <div className="xl:col-span-2 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-base font-semibold">User Baru per Bulan</h3>
-            <span className="text-xs text-gray-500">Tahun berjalan</span>
-          </div>
-          <div className="h-72 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={monthlyNewUsers}
-                margin={{ top: 5, right: 16, bottom: 5, left: 0 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="newUsers" name="User Baru" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      {/* Table Placeholder (optional, for future) */}
-      <div className="mt-6 rounded-2xl border border-dashed border-gray-200 p-6 text-sm text-gray-500">
-        Area ini bisa dipakai untuk ringkasan *chat history* atau quick links
-        (export, filter tanggal, dsb).
+      {/* Pie Chart: Guest vs Registered */}
+      <div className="mb-6 rounded-2xl bg-white p-6 shadow">
+        <h3 className="mb-2 font-semibold text-hitam">Data antara user</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={guestVsRegistered}
+              dataKey="total_chat"
+              nameKey="kategori"
+              outerRadius={120}
+              label
+            >
+              <Cell fill="#0088FE" />
+              <Cell fill="#FF8042" />
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
