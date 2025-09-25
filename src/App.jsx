@@ -12,6 +12,7 @@ import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/DashBoard";
 import DashboardAdmin from "./pages/admin/DashBoard";
 import AdminChats from "./pages/admin/ChatHistory";
+import Whachat from "./pages/admin/ChatHistoriWa";
 import LoginAdmin from "./pages/Auth/LoginAdmin";
 
 import HRegisterAdmin from "./pages/Auth/RegisterAdmin";
@@ -36,6 +37,7 @@ function App() {
           <Route index element={<DashboardAdmin />} />
           <Route path="dashboard" element={<DashboardAdmin />} />
           <Route path="history/website" element={<AdminChats />} />
+          <Route path="history/wa" element={<Whachat />} />
         </Route>
 
         {/* Auth */}

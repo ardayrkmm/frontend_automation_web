@@ -1,4 +1,3 @@
-// src/pages/AdminChats.jsx
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { chatWa } from "../../features/historyChatSlice";
@@ -37,7 +36,7 @@ export default function AdminChats() {
           <thead>
             <tr className="bg-black text-white">
               <th className="p-2 border">Nama User</th>
-              <th className="p-2 border">Session ID</th>
+              <th className="p-2 border">Nomer Telepon</th>
               <th className="p-2 border">Pesan</th>
               <th className="p-2 border">Waktu</th>
             </tr>
@@ -105,29 +104,43 @@ export default function AdminChats() {
 
       {/* Modal */}
       {selectedChat && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed text-hitam inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-2/3 max-h-[80vh] overflow-y-auto">
             <h2 className="text-lg font-bold mb-4">
-              Chat Session: {selectedChat.session_id}
+              Nomer Telepon: {selectedChat.session_id}
             </h2>
             <p className="mb-2 font-medium">
-              User: {selectedChat.customer?.nama} (
+              Pengguna: {selectedChat.customer?.nama} (
               {selectedChat.customer?.phone})
             </p>
             <div className="space-y-3">
-              {selectedChat.history.map((h) => (
-                <div key={h.id} className="border p-3 rounded bg-gray-50">
-                  <p>
-                    <span className="font-semibold">User:</span> {h.message}
-                  </p>
-                  {h.response && (
+              {selectedChat.history.map((h) => {
+                // kalau backend kasih object message
+                const content =
+                  typeof h.message === "object" ? h.message.content : h.message;
+
+                const type =
+                  typeof h.message === "object" ? h.message.type : "human";
+
+                return (
+                  <div
+                    key={h.id}
+                    className={`p-3 rounded ${
+                      type === "human"
+                        ? "bg-biru text-left"
+                        : "bg-biru text-right"
+                    }`}
+                  >
                     <p>
-                      <span className="font-semibold">Bot:</span> {h.response}
+                      <span className="font-semibold">
+                        {type === "human" ? "Pengguna :" : "Genius Bot:"}
+                      </span>{" "}
+                      {content}
                     </p>
-                  )}
-                  <p className="text-xs text-gray-500 mt-1">{h.created_at}</p>
-                </div>
-              ))}
+                    <p className="text-xs text-gray-500 mt-1">{h.created_at}</p>
+                  </div>
+                );
+              })}
             </div>
             <div className="mt-4 flex justify-end">
               <button

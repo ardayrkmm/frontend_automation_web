@@ -28,6 +28,28 @@ export const fetchChats = createAsyncThunk(
   }
 );
 
+export const chatWa = createAsyncThunk(
+  "chats/chatWa",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(`${Config.API_BASE_URL}/admin/history/wa`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("API response =>", res.data);
+      return res.data;
+    } catch (err) {
+      const msg =
+        err.response?.data?.msg ||
+        err.response?.data?.error ||
+        err.message ||
+        "Unknown error";
+      return rejectWithValue(msg);
+    }
+  }
+);
 const chatSlice = createSlice({
   name: "chats",
   initialState: {
@@ -46,6 +68,18 @@ const chatSlice = createSlice({
         state.chats = action.payload;
       })
       .addCase(fetchChats.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(chatWa.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(chatWa.fulfilled, (state, action) => {
+        state.loading = false;
+        state.chats = action.payload;
+      })
+      .addCase(chatWa.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

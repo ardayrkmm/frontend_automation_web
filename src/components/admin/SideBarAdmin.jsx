@@ -93,7 +93,7 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
                 />
                 <SidebarButton
                   label="WhatsApp"
-                  path="/admin/history/whatsapp"
+                  path="/admin/history/wa"
                   expanded={expanded}
                 />
                 <SidebarButton
