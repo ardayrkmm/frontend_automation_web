@@ -29,9 +29,23 @@ const Chatbot = () => {
 
   const handleSend = () => {
     if (!input.trim()) return;
+
+    // ✅ kalau guest & sudah 10 message dari user → stop
+    if (!token) {
+      const userMessages = messages.filter((msg) => msg.sender === "user");
+      if (userMessages.length >= 10) {
+        dispatch(
+          addBotMessage(
+            "🚀 Silahkan login untuk melanjutkan obrolan tanpa batas."
+          )
+        );
+        setInput("");
+        return;
+      }
+    }
+
     dispatch(addUserMessage(input));
 
-    // cek login / guest
     dispatch(
       sendMessage({
         message: input,
@@ -52,7 +66,7 @@ const Chatbot = () => {
         </p>
         {!token && (
           <span className="text-red-500 text-sm">
-            Mode: Coba Gratis (maks 5 chat) 🚀
+            Mode: Coba Gratis (maks 10 chat) 🚀
           </span>
         )}
       </div>
