@@ -16,6 +16,12 @@ import Whachat from "./pages/admin/ChatHistoriWa";
 import LoginAdmin from "./pages/Auth/LoginAdmin";
 
 import HRegisterAdmin from "./pages/Auth/RegisterAdmin";
+import DashboardUser from "./layouts/DashboardUser";
+import BroadcastPage from "./pages/DashboardUser/BroadcastPage";
+import ChatbotBuilder from "./pages/DashboardUser/ChatbotBuilder";
+import PaketTagihan from "./pages/DashboardUser/PaketUser";
+import CheckoutPage from "./pages/Landing/ChekoutPage";
+import HalDashboardUser from "./pages/DashboardUser/DashboardUser";
 
 function App() {
   return (
@@ -40,6 +46,15 @@ function App() {
           <Route path="history/wa" element={<Whachat />} />
         </Route>
 
+        <Route path="/user" element={<DashboardUser />}>
+          {/* index = default child */}
+          <Route index element={<HalDashboardUser />} />
+          <Route path="dashboard" element={<HalDashboardUser />} />
+          <Route path="dashboard/broadcast" element={<BroadcastPage />} />
+          <Route path="dashboard/chatbot" element={<ChatbotBuilder />} />
+          <Route path="dashboard/paket" element={<PaketTagihan />} />
+        </Route>
+        <Route path="/checkout/:id" element={<CheckoutPage />} />
         {/* Auth */}
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<HalamanRegis />} />

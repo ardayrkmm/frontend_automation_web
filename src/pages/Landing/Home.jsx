@@ -21,6 +21,21 @@ const Home = () => {
       />
       <div className="w-full px-0 mx-0">
         <Headers />
+        <ContentSection
+          title="Multi-Knowledge!"
+          description="Dengan Genius AI, satu akun Whatsapp atau sosial media lainnya dapat menangani berbagai jenis informasi dan kebutuhan bisnis. Dari customer service, sales, hingga support.
+Semua terintegrasi dalam satu AI yang cerdas dan responsif…"
+          image={gambarS1}
+          reverse={true}
+          extraContent={
+            <p
+              className="text-biru cursor-pointer"
+              onClick={() => console.log("Load more clicked!")}
+            >
+              Lihat Demo..
+            </p>
+          }
+        />
         <div className="relative">
           <FeaturesSection />
         </div>
@@ -33,22 +48,6 @@ const Home = () => {
           extraContent={
             <p
               className="text-putih cursor-pointer"
-              onClick={() => console.log("Load more clicked!")}
-            >
-              Lihat Demo..
-            </p>
-          }
-        />
-
-        <ContentSection
-          title="Multi-Knowledge!"
-          description="Dengan Pekerja.ai, satu akun Whatsapp atau sosial media lainnya dapat menangani berbagai jenis informasi dan kebutuhan bisnis. Dari customer service, sales, hingga support.
-Semua terintegrasi dalam satu AI yang cerdas dan responsif"
-          image={gambarS1}
-          reverse={true}
-          extraContent={
-            <p
-              className="text-biru cursor-pointer"
               onClick={() => console.log("Load more clicked!")}
             >
               Lihat Demo..

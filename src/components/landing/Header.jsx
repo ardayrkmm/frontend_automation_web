@@ -15,7 +15,7 @@ const Headers = () => {
           kebiasaan orang Indonesia.
         </p>
 
-        <Buttons variant="primary" className="w-[231px] h-[63px] mt-[30px]">
+        <Buttons variant="secondary" className="w-[231px] h-[63px] mt-[30px]">
           Coba Chatbot Gratis <IoIosArrowRoundForward />
         </Buttons>
       </div>

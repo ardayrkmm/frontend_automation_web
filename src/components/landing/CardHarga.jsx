@@ -1,10 +1,11 @@
-// CardHarga.jsx
 import React from "react";
 import Buttons from "../common/button";
 import list from "../../assets/list.png";
 import list2 from "../../assets/listT.png";
+import { useNavigate } from "react-router-dom";
 
 const CardHarga = ({
+  id,
   title,
   price,
   description,
@@ -12,13 +13,18 @@ const CardHarga = ({
   buttonText,
   highlight,
 }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/checkout/${id}`);
+  };
+
   return (
     <div
       className={`flex flex-col justify-between rounded-lg shadow-lg border p-6 w-full max-w-sm transition-all
       ${highlight ? "bg-white border-blue-200" : "bg-white border-gray-200"}
       `}
     >
-      {/* Title & Price */}
       <div>
         <h2
           className={`text-lg font-semibold ${
@@ -36,17 +42,14 @@ const CardHarga = ({
         </p>
         <p className="text-sm sm:text-base text-gray-500 mt-1">{description}</p>
 
-        {/* Features */}
         <ul className="mt-6 space-y-3">
           {features.map((feature, idx) => (
             <li key={idx} className="flex items-start gap-2">
-              <span>
-                {highlight ? (
-                  <img src={list2} alt="" className="h-[18px] sm:h-[20px]" />
-                ) : (
-                  <img src={list} alt="" className="h-[18px] sm:h-[20px]" />
-                )}
-              </span>
+              <img
+                src={highlight ? list2 : list}
+                alt=""
+                className="h-[18px] sm:h-[20px]"
+              />
               <span
                 className={`${
                   highlight ? "text-blue-800" : "text-gray-700"
@@ -59,8 +62,8 @@ const CardHarga = ({
         </ul>
       </div>
 
-      {/* Button */}
       <Buttons
+        onClick={handleClick}
         className={`mt-8 w-[100px] sm:w-[120px] h-[45px] sm:h-[51px] rounded-lg py-2 font-medium transition-all
         ${
           highlight

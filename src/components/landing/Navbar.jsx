@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   const chatBotClick = () => navigate("/chatbot");
-
+  const handleDash = () => navigate("/user/dashboard");
   const menus = [
     { name: "Bisnis", path: "/bisnis" },
     { name: "Fitur", path: "/fitur" },
@@ -82,6 +82,12 @@ const Navbar = () => {
               {showDropdown && (
                 <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg">
                   <button
+                    onClick={handleDash}
+                    className="block w-full text-left px-4 py-2 text-biru hover:bg-gray-100"
+                  >
+                    Dashboard
+                  </button>
+                  <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
                   >
@@ -94,7 +100,7 @@ const Navbar = () => {
             // 🔹 Jika belum login → tampilkan tombol login
             <>
               <Button
-                variant="secondary"
+                variant="primary"
                 size="kecil"
                 onClick={handleLoginClick}
                 className="rounded-[8px] w-[126px] h-[60px] font-serif"
@@ -102,7 +108,7 @@ const Navbar = () => {
                 Login
               </Button>
               <Button
-                variant="primary"
+                variant="secondary"
                 onClick={chatBotClick}
                 className="text-white w-[239px] h-[60px] rounded-[8px] font-serif"
               >

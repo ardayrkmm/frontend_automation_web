@@ -14,9 +14,9 @@ const Buttons = ({
     "rounded-lg font-medium transition-all font-serif cursor-pointer";
   const varian = {
     primary:
-      "bg-gradient-to-t from-[#063369] to-[#4F9CF9] text-[#ffffff] font-serif",
+      "bg-gradient-to-r from-[#0EA5E9CC] to-[#14B8A6CC] text-[#ffffff] font-serif",
     secondary:
-      "bg-gradient-to-t from-[#977901] to-[#FDCB02]  hover:bg-kuning text-[#043873] font-serif",
+      "bg-gradient-to-r from-[#F97316] to-[#FACC15]  hover:bg-kuning text-[#ffffff] font-serif",
   };
 
   const ukuran = {
