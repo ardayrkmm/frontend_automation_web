@@ -1,30 +1,27 @@
 // src/pages/AdminChats.jsx
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { chatWa } from "../../features/historyChatSlice";
+import { fetchChats } from "../../features/chatBotHistory";
 
 export default function AdminChats() {
   const dispatch = useDispatch();
   const { chats, loading, error } = useSelector((state) => state.chats);
 
-  // State pagination
+  // Pagination
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  // State modal
+  // Modal
   const [selectedChat, setSelectedChat] = useState(null);
 
   useEffect(() => {
-    dispatch(chatWa());
+    dispatch(fetchChats());
   }, [dispatch]);
 
-  // Hitung total halaman
-  const totalPages = chats.length > 0 ? Math.ceil(chats.length / limit) : 1;
-
-  // Tentukan data yang tampil sesuai halaman
+  const totalPages = chats?.length > 0 ? Math.ceil(chats.length / limit) : 1;
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
-  const currentChats = chats.slice(startIndex, endIndex);
+  const currentChats = chats?.slice(startIndex, endIndex) || [];
 
   if (loading) return <p className="text-center text-blue-500">Loading...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
@@ -32,6 +29,7 @@ export default function AdminChats() {
   return (
     <div className="p-6">
       <h1 className="text-xl font-bold mb-4">📩 Chat Histories</h1>
+
       <div className="overflow-x-auto">
         <table className="table-auto border-collapse w-full border border-gray-300">
           <thead>
@@ -43,12 +41,14 @@ export default function AdminChats() {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(currentChats) && currentChats.length > 0 ? (
+            {currentChats.length > 0 ? (
               currentChats.map((chat, idx) => (
                 <tr key={idx}>
-                  <td className="p-2 border">{chat.customer?.nama || "-"}</td>
-                  <td className="p-2 border">{chat.session_id}</td>
-                  <td className="p-2 border text-center">
+                  <td className="p-2 border text-hitam">
+                    {chat.user_name || "-"}
+                  </td>
+                  <td className="p-2 border text-hitam">{chat.session_id}</td>
+                  <td className="p-2 border text-center text-hitam">
                     <button
                       onClick={() => setSelectedChat(chat)}
                       className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
@@ -57,7 +57,7 @@ export default function AdminChats() {
                     </button>
                   </td>
                   <td className="p-2 border">
-                    {chat.history?.[0]?.created_at || "-"}
+                    {chat.chats?.[0]?.created_at || "-"}
                   </td>
                 </tr>
               ))
@@ -107,28 +107,31 @@ export default function AdminChats() {
       {selectedChat && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-2/3 max-h-[80vh] overflow-y-auto">
-            <h2 className="text-lg font-bold mb-4">
+            <h2 className="text-lg text-hitam font-bold mb-4">
               Chat Session: {selectedChat.session_id}
             </h2>
             <p className="mb-2 font-medium">
-              User: {selectedChat.customer?.nama} (
-              {selectedChat.customer?.phone})
+              User: {selectedChat.user_name || "-"}
             </p>
+
             <div className="space-y-3">
-              {selectedChat.history.map((h) => (
+              {selectedChat.chats?.map((h) => (
                 <div key={h.id} className="border p-3 rounded bg-gray-50">
-                  <p>
-                    <span className="font-semibold">User:</span> {h.message}
+                  <p className="text-hitam">
+                    <span className="font-semibold text-hitam">User:</span>{" "}
+                    {h.message}
                   </p>
                   {h.response && (
-                    <p>
-                      <span className="font-semibold">Bot:</span> {h.response}
+                    <p className="text-hitam">
+                      <span className="font-semibold text-hitam">Bot:</span>{" "}
+                      {h.response}
                     </p>
                   )}
                   <p className="text-xs text-gray-500 mt-1">{h.created_at}</p>
                 </div>
               ))}
             </div>
+
             <div className="mt-4 flex justify-end">
               <button
                 onClick={() => setSelectedChat(null)}

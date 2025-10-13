@@ -8,6 +8,7 @@ import broadcastReducer from "../features/BroadcastSlice";
 import pricingReducer from "../features/pricingSlice";
 import chekoutReducer from "../features/chekoutSlice";
 import orderReducer from "../features/OrderSlice";
+import adminUsersReducer from "../features/AdminUserSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -19,6 +20,7 @@ export const store = configureStore({
     pricing: pricingReducer,
     checkout: chekoutReducer,
     orders: orderReducer,
+    users: adminUsersReducer,
 
   },
 });

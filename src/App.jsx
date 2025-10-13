@@ -22,6 +22,7 @@ import ChatbotBuilder from "./pages/DashboardUser/ChatbotBuilder";
 import PaketTagihan from "./pages/DashboardUser/PaketUser";
 import CheckoutPage from "./pages/Landing/ChekoutPage";
 import HalDashboardUser from "./pages/DashboardUser/DashboardUser";
+import UserList from "./pages/admin/Pengguna";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           {/* index = default child */}
           <Route index element={<DashboardAdmin />} />
           <Route path="dashboard" element={<DashboardAdmin />} />
+          <Route path="dashboard/pengguna" element={<UserList />} />
           <Route path="history/website" element={<AdminChats />} />
           <Route path="history/wa" element={<Whachat />} />
         </Route>

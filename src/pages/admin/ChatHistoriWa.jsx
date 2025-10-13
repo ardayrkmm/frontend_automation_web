@@ -34,7 +34,7 @@ export default function AdminChats() {
       <div className="overflow-x-auto">
         <table className="table-auto border-collapse w-full border border-gray-300">
           <thead>
-            <tr className="bg-black text-white">
+            <tr className="bg-biru text-white">
               <th className="p-2 border">Nama User</th>
               <th className="p-2 border">Nomer Telepon</th>
               <th className="p-2 border">Pesan</th>
@@ -45,17 +45,19 @@ export default function AdminChats() {
             {Array.isArray(currentChats) && currentChats.length > 0 ? (
               currentChats.map((chat, idx) => (
                 <tr key={idx}>
-                  <td className="p-2 border">{chat.customer?.nama || "-"}</td>
-                  <td className="p-2 border">{chat.session_id}</td>
-                  <td className="p-2 border text-center">
+                  <td className="p-2 border text-hitam">
+                    {chat.customer?.nama || "-"}
+                  </td>
+                  <td className="p-2 border text-hitam">{chat.session_id}</td>
+                  <td className="p-2 border text-center text-hitam">
                     <button
                       onClick={() => setSelectedChat(chat)}
-                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                      className="bg-blue-500 text-putih px-3 py-1 rounded hover:bg-blue-600"
                     >
                       Lihat
                     </button>
                   </td>
-                  <td className="p-2 border">
+                  <td className="p-2 border text-hitam">
                     {chat.history?.[0]?.created_at || "-"}
                   </td>
                 </tr>

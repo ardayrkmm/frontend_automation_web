@@ -9,7 +9,7 @@ const AdminLayout = () => {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
-    <div className="flex h-screen bg-[#141718] text-white">
+    <div className="flex h-screen bg-putih text-white">
       {/* Sidebar */}
       <SidebarAdmin isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 

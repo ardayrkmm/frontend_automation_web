@@ -9,48 +9,70 @@ import {
   FiChevronsRight,
 } from "react-icons/fi";
 import { useState } from "react";
-import avatar from "../../assets/avatar_3.png";
+
 import logo from "../../assets/logos.png";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
+import { useLocation, useNavigate } from "react-router-dom";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
-  const [expanded, setExpanded] = useState(true); // toggle width
+  const [expanded, setExpanded] = useState(true);
   const [historyOpen, setHistoryOpen] = useState(false);
-  const { user } = useSelector((state) => state.auth);
-  console.log("Sidebar user =>", user);
+
+  const location = useLocation();
 
   return (
     <div
-      className={`fixed z-50 md:static top-0 left-0 h-full bg-[#141718] transition-all duration-300
+      className={`fixed z-50 md:static top-0 left-0 h-full bg-[#ffffff] transition-all duration-300
         ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 ${
         expanded ? "w-[260px]" : "w-[80px]"
       }`}
     >
-      <div className="flex flex-col h-full justify-between px-3 py-4 text-sm text-white">
+      <div className="flex flex-col h-full justify-between px-3 py-4">
         {/* Header */}
         <div>
-          {/* Close button (mobile only) */}
-          <div className="flex items-center justify-between mb-6 md:hidden">
-            <img src={logo} alt="Logo" className="h-7" />
-            <button onClick={toggleSidebar}>
-              <FiX size={24} />
-            </button>
+          {/* Mobile close */}
+          <div className="text-black">
+            <div className="flex items-center justify-between mb-6 md:hidden">
+              <div className="flex flex-row items-center gap-2">
+                <img src={logo} alt="Logo" className="h-[50px]" />
+                <h1 className="text-[#5D5FEF] text-[20px] font-semibold">
+                  Genius AI
+                </h1>
+              </div>
+              <button onClick={toggleSidebar} className="text-black">
+                <FiX size={24} />
+              </button>
+            </div>
           </div>
 
-          {/* Logo + toggle expand (desktop) */}
+          {/* Logo desktop */}
           <div className="hidden md:flex items-center justify-between mb-6">
-            <img
-              src={logo}
-              alt="Logo"
-              className="h-7 cursor-pointer"
-              onClick={() => {
-                if (!expanded) setExpanded(true); // hanya aktif saat collapsed
-              }}
-            />
-            {expanded && (
-              <button onClick={() => setExpanded(false)} className="text-white">
+            <div className="flex items-center gap-2">
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-7 cursor-pointer"
+                onClick={() => !expanded && setExpanded(true)}
+              />
+              {expanded && (
+                <h1 className="text-[#5D5FEF] text-[18px] font-semibold">
+                  Genius AI
+                </h1>
+              )}
+            </div>
+            {expanded ? (
+              <button
+                onClick={() => setExpanded(false)}
+                className="text-gray-500"
+              >
                 <FiChevronsLeft size={20} />
+              </button>
+            ) : (
+              <button
+                onClick={() => setExpanded(true)}
+                className="text-gray-500"
+              >
+                <FiChevronsRight size={20} />
               </button>
             )}
           </div>
@@ -60,81 +82,74 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
             <SidebarButton
               icon={<FiMessageSquare />}
               label="Dashboard"
-              active
-              path="/admin/dashboard"
+              path="/admin"
               expanded={expanded}
+              active={location.pathname === "/admin"}
             />
             <SidebarButton
-              icon={<FiSearch />}
+              icon={<FiMessageSquare />}
               label="Pengguna"
-              shortcut="⌘ F"
+              path="/admin/dashboard/pengguna"
               expanded={expanded}
+              active={location.pathname === "/admin/dashboard/pengguna"}
             />
+            <SidebarButton
+              icon={<FiBox />}
+              label="Chatbot History"
+              path="/user/dashboard/chatbot"
+              expanded={expanded}
+              active={location.pathname === "/user/dashboard/chatbot"}
+            />
+            <SidebarButton
+              icon={<FiBox />}
+              label="Paket"
+              path="/user/dashboard/paket"
+              expanded={expanded}
+              active={location.pathname === "/user/dashboard/paket"}
+            />
+
+            {/* History Section */}
             <button
               onClick={() => setHistoryOpen(!historyOpen)}
-              className={`flex items-center justify-between px-3 py-2 w-full rounded ${
-                historyOpen ? "bg-[#2e2e2e]" : "hover:bg-[#2e2e2e]"
-              }`}
+              className={`flex items-center justify-between px-4 py-3 w-full rounded-lg transition-colors
+                ${
+                  historyOpen
+                    ? "bg-[#F5F5FF] text-[#5D5FEF]"
+                    : "text-gray-700 hover:bg-[#F5F5FF] hover:text-[#5D5FEF]"
+                }`}
             >
               <div className="flex items-center gap-3">
                 <FiBox />
-                {expanded && <span>History Chat User</span>}
+                {expanded && (
+                  <span className="font-bold">History Chat User</span>
+                )}
               </div>
               {expanded && (historyOpen ? <FiChevronUp /> : <FiChevronDown />)}
             </button>
 
-            {/* Submenu */}
             {historyOpen && expanded && (
               <div className="ml-8 space-y-1">
                 <SidebarButton
                   label="Website"
                   path="/admin/history/website"
                   expanded={expanded}
+                  active={location.pathname === "/admin/history/website"}
                 />
                 <SidebarButton
                   label="WhatsApp"
                   path="/admin/history/wa"
                   expanded={expanded}
-                />
-                <SidebarButton
-                  label="Telegram"
-                  path="/admin/history/telegram"
-                  expanded={expanded}
+                  active={location.pathname === "/admin/history/wa"}
                 />
               </div>
             )}
           </div>
         </div>
-
-        {/* Bottom */}
-        {expanded ? (
-          <div>
-            <div className="flex items-center gap-2 p-3 rounded bg-[#2e2e2e] mb-2">
-              <img src={avatar} className="w-8 h-8 rounded-full" alt="User" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">
-                  {user?.name || "Guest"} {/* ✅ dynamic */}
-                </p>
-                <p className="text-xs text-gray-400">
-                  {user?.email || "Belum login"} {/* ✅ dynamic */}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-between px-3 py-2 bg-[#2e2e2e] rounded">
-              <button className="text-white text-xs">Light</button>
-              <button className="text-gray-500 text-xs">Dark</button>
-            </div>
-          </div>
-        ) : (
-          <div className="mb-3 text-center text-xs text-gray-400">▼</div>
-        )}
       </div>
     </div>
   );
 };
 
-// Sidebar Button
 const SidebarButton = ({
   icon,
   label,
@@ -144,53 +159,24 @@ const SidebarButton = ({
   path,
 }) => {
   const navigate = useNavigate();
-
   return (
     <button
-      onClick={() => navigate(path)}
-      className={`flex items-center gap-3 px-3 py-2 w-full rounded ${
-        active ? "bg-[#2e2e2e]" : "hover:bg-[#2e2e2e]"
-      }`}
+      onClick={() => path && navigate(path)}
+      className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg font-medium transition-colors
+        ${
+          active
+            ? "bg-[#5D5FEF] text-white shadow"
+            : "text-gray-700 hover:bg-[#F5F5FF] hover:text-[#5D5FEF]"
+        }`}
     >
-      {icon}
-      {expanded && label}
+      {icon && <span className="text-lg">{icon}</span>}
+      {expanded && <span>{label}</span>}
       {expanded && shortcut && (
-        <span className="ml-auto text-[10px] bg-[#3b3b3b] px-2 py-0.5 rounded">
+        <span className="ml-auto text-[10px] bg-gray-200 text-gray-600 px-2 py-0.5 rounded">
           {shortcut}
         </span>
       )}
     </button>
-  );
-};
-
-const SidebarItem = ({ label, count, color, selected, icon }) => {
-  return (
-    <div
-      className={`flex items-center justify-between px-3 py-2 rounded cursor-pointer ${
-        selected ? "bg-[#3f3f3f]" : "hover:bg-[#2e2e2e]"
-      }`}
-    >
-      <div className="flex items-center gap-2">
-        <span
-          className={`w-2.5 h-2.5 rounded-full ${
-            color === "gray"
-              ? "bg-gray-500"
-              : color === "purple"
-              ? "bg-purple-500"
-              : color === "blue"
-              ? "bg-blue-500"
-              : color === "orange"
-              ? "bg-orange-500"
-              : "bg-white"
-          }`}
-        ></span>
-        <span>{label}</span>
-      </div>
-      {count && (
-        <span className="text-xs bg-[#444] px-2 py-0.5 rounded">{count}</span>
-      )}
-      {icon && icon}
-    </div>
   );
 };
 
