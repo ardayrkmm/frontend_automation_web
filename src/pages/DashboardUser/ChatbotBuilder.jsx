@@ -1,43 +1,35 @@
 import { useState } from "react";
-import { FiPlus, FiGlobe, FiMessageCircle, FiUpload } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadChatbot } from "../../features/createChatbot";
 
 export default function ChatbotBuilder() {
-  const [bots, setBots] = useState([
-    {
-      id: 1,
-      nama: "Website Chatbot",
-      platform: "Website",
-      dokumen: "Panduan Produk.pdf",
-      tanggal: "2025-10-01",
-    },
-    {
-      id: 2,
-      nama: "WhatsApp Assistant",
-      platform: "WhatsApp",
-      dokumen: "FAQ Pelanggan.pdf",
-      tanggal: "2025-09-22",
-    },
-  ]);
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((s) => s.chatbot);
 
   const [showModal, setShowModal] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [newBot, setNewBot] = useState({ nama: "", platform: "Website" });
+  const [file, setFile] = useState(null);
 
   const handleAddBot = () => {
     if (!newBot.nama) return alert("Nama chatbot harus diisi!");
-    const newEntry = {
-      id: bots.length + 1,
-      nama: newBot.nama,
-      platform: newBot.platform,
-      dokumen: "-",
-      tanggal: new Date().toISOString().split("T")[0],
-    };
-    setBots([...bots, newEntry]);
-    setNewBot({ nama: "", platform: "Website" });
-    setShowModal(false);
+    if (!file) return alert("File harus dipilih!");
+
+    dispatch(uploadChatbot({ name: newBot.nama, file }))
+      .unwrap()
+      .then(() => {
+        setNewBot({ nama: "", platform: "Website" });
+        setFile(null);
+        setShowModal(false);
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 2500); // popup hilang otomatis
+      })
+      .catch((err) => alert(err));
   };
 
   return (
-    <div className="p-6 ">
+    <div className="p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Chatbot Builder</h1>
@@ -51,43 +43,20 @@ export default function ChatbotBuilder() {
 
       {/* Daftar Bot */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {bots.map((bot) => (
-          <div
-            key={bot.id}
-            className="border rounded-2xl p-4 shadow-sm hover:shadow-md transition"
-          >
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="font-semibold text-lg">{bot.nama}</h3>
-              {bot.platform === "Website" ? (
-                <FiGlobe className="text-blue-500" />
-              ) : (
-                <FiMessageCircle className="text-green-500" />
-              )}
-            </div>
-            <p className="text-sm text-gray-500 mb-1">
-              Platform: <span className="font-medium">{bot.platform}</span>
-            </p>
-            <p className="text-sm text-gray-500 mb-1">
-              Dokumen: <span className="font-medium">{bot.dokumen}</span>
-            </p>
-            <p className="text-xs text-gray-400">Dibuat: {bot.tanggal}</p>
-
-            <div className="mt-4 flex justify-between">
-              <button className="flex items-center gap-1 border px-3 py-1.5 rounded-lg text-sm hover:bg-gray-50">
-                <FiUpload /> Upload Dokumen
-              </button>
-              <button className="text-blue-600 text-sm font-medium hover:underline">
-                Kelola
-              </button>
-            </div>
-          </div>
-        ))}
+        <h1>Menyusul</h1>
       </div>
 
       {/* Modal Tambah */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-lg">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 text-hitam">
+          <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-lg relative">
+            {/* Loading overlay */}
+            {loading && (
+              <div className="absolute inset-0 bg-white/70 flex items-center justify-center rounded-2xl">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-600"></div>
+              </div>
+            )}
+
             <h2 className="text-xl font-semibold mb-4">Tambah Chatbot Baru</h2>
             <div className="space-y-3">
               <input
@@ -97,33 +66,43 @@ export default function ChatbotBuilder() {
                 onChange={(e) => setNewBot({ ...newBot, nama: e.target.value })}
                 className="w-full border rounded-xl px-3 py-2 focus:outline-blue-500"
               />
-              <select
-                value={newBot.platform}
-                onChange={(e) =>
-                  setNewBot({ ...newBot, platform: e.target.value })
-                }
-                className="w-full border rounded-xl px-3 py-2 focus:outline-blue-500"
-              >
-                <option value="Website">Website</option>
-                <option value="WhatsApp">WhatsApp</option>
-              </select>
+
+              <input
+                type="file"
+                accept=".pdf"
+                onChange={(e) => setFile(e.target.files[0])}
+                className="w-full border rounded-xl px-3 py-2"
+              />
             </div>
 
             <div className="mt-6 flex justify-end gap-3">
               <button
                 onClick={() => setShowModal(false)}
-                className="border px-4 py-2 rounded-xl hover:bg-gray-100"
+                disabled={loading}
+                className="border px-4 py-2 rounded-xl hover:bg-gray-100 disabled:opacity-60"
               >
                 Batal
               </button>
               <button
                 onClick={handleAddBot}
-                className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700"
+                disabled={loading}
+                className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 disabled:opacity-60"
               >
-                Tambah
+                {loading ? "Mengupload..." : "Tambah"}
               </button>
             </div>
+
+            {error && (
+              <div className="mt-3 text-red-600 text-sm">Error: {error}</div>
+            )}
           </div>
+        </div>
+      )}
+
+      {/* Popup sukses */}
+      {showSuccess && (
+        <div className="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg animate-fade-in">
+          ✅ Chatbot berhasil ditambahkan!
         </div>
       )}
     </div>

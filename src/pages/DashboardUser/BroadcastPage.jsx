@@ -128,7 +128,7 @@ const BroadcastPage = () => {
             <div className="mt-3 p-3 rounded border bg-green-50 text-hitam">
               <div className="font-medium">Berhasil disimpan</div>
               <pre className="text-sm mt-2">
-                {JSON.stringify(lastResult, null, 2)}
+                {lastResult.message || "Broadcast berhasil dikirim!"}
               </pre>
             </div>
           )}

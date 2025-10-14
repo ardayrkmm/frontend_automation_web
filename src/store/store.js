@@ -9,6 +9,7 @@ import pricingReducer from "../features/pricingSlice";
 import chekoutReducer from "../features/chekoutSlice";
 import orderReducer from "../features/OrderSlice";
 import adminUsersReducer from "../features/AdminUserSlice";
+import createChatbotRed from "../features/createChatbot";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -21,7 +22,7 @@ export const store = configureStore({
     checkout: chekoutReducer,
     orders: orderReducer,
     users: adminUsersReducer,
-
+    createChatbot: createChatbotRed,
   },
 });
 
