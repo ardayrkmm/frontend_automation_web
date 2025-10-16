@@ -38,8 +38,9 @@ const CardHarga = ({
             highlight ? "text-blue-900" : "text-gray-900"
           }`}
         >
-          {price}
+          Rp. {Number(price.replace("Rp.", "")).toLocaleString("id-ID")}
         </p>
+
         <p className="text-sm sm:text-base text-gray-500 mt-1">{description}</p>
 
         <ul className="mt-6 space-y-3">

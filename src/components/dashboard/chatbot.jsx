@@ -76,15 +76,19 @@ const Chatbot = () => {
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`p-3 rounded-lg max-w-xs ${
+            className={`p-3 rounded-lg max-w-[50%] whitespace-pre-line break-words ${
               msg.sender === "user"
                 ? "bg-blue-500 text-white ml-auto"
                 : "bg-gray-200 text-gray-800 mr-auto"
             }`}
-          >
-            {msg.text}
-          </div>
+            dangerouslySetInnerHTML={{
+              __html: msg.text
+                .replace(/\n/g, "<br>") // biar baris baru tetap kelihatan
+                .replace(/- /g, "• "), // ubah list jadi bullet
+            }}
+          />
         ))}
+
         {loading && (
           <div className="p-3 rounded-lg max-w-xs bg-gray-300 text-gray-600 mr-auto">
             Sedang mengetik...
