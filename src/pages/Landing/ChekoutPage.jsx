@@ -43,7 +43,7 @@ const CheckoutPage = () => {
   // 🔹 Proses checkout hanya ketika user klik tombol
   const handleCheckout = () => {
     if (!token) {
-      navigate("/login");
+      navigate("/auth/login");
       return;
     }
     dispatch(createCheckout({ plan_id: id, token }));
