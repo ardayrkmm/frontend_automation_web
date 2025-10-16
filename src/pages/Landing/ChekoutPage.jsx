@@ -43,6 +43,7 @@ const CheckoutPage = () => {
   // 🔹 Proses checkout hanya ketika user klik tombol
   const handleCheckout = () => {
     if (!token) {
+      console.log("Token tidak ada, menuju ke /auth/login");
       navigate("/auth/login");
       return;
     }
