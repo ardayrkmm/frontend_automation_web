@@ -23,6 +23,8 @@ import PaketTagihan from "./pages/DashboardUser/PaketUser";
 import CheckoutPage from "./pages/Landing/ChekoutPage";
 import HalDashboardUser from "./pages/DashboardUser/DashboardUser";
 import UserList from "./pages/admin/Pengguna";
+import AdminAddFeature from "./pages/admin/LandingFitur";
+import PaketHistoriPengguna from "./pages/admin/PaketHistori";
 
 function App() {
   return (
@@ -46,6 +48,11 @@ function App() {
           <Route path="dashboard/pengguna" element={<UserList />} />
           <Route path="history/website" element={<AdminChats />} />
           <Route path="history/wa" element={<Whachat />} />
+          <Route
+            path="history/paket/pengguna"
+            element={<PaketHistoriPengguna />}
+          />
+          <Route path="landing/fitur" element={<AdminAddFeature />} />
         </Route>
 
         <Route path="/user" element={<DashboardUser />}>

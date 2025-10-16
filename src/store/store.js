@@ -10,6 +10,8 @@ import chekoutReducer from "../features/chekoutSlice";
 import orderReducer from "../features/OrderSlice";
 import adminUsersReducer from "../features/AdminUserSlice";
 import createChatbotRed from "../features/createChatbot";
+import LandingFitur from "../features/LandingFiturSlice";
+import PaketHistoriPengguna from "../features/PaketHistoriPenggunaSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -23,6 +25,8 @@ export const store = configureStore({
     orders: orderReducer,
     users: adminUsersReducer,
     createChatbot: createChatbotRed,
+    fiturs: LandingFitur,
+    PaketHistoriPenggunas: PaketHistoriPengguna,
   },
 });
 

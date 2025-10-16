@@ -17,6 +17,7 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
   const [expanded, setExpanded] = useState(true);
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [landingOpen, setLandingOpen] = useState(false);
 
   const location = useLocation();
 
@@ -102,13 +103,13 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
             />
             <SidebarButton
               icon={<FiBox />}
-              label="Paket"
-              path="/user/dashboard/paket"
+              label="Histori Paket Pengguna"
+              path="/admin/history/paket/pengguna"
               expanded={expanded}
-              active={location.pathname === "/user/dashboard/paket"}
+              active={location.pathname === "/admin/history/paket/pengguna"}
             />
 
-            {/* History Section */}
+            {/* landing Section */}
             <button
               onClick={() => setHistoryOpen(!historyOpen)}
               className={`flex items-center justify-between px-4 py-3 w-full rounded-lg transition-colors
@@ -134,6 +135,39 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
                   path="/admin/history/website"
                   expanded={expanded}
                   active={location.pathname === "/admin/history/website"}
+                />
+                <SidebarButton
+                  label="WhatsApp"
+                  path="/admin/history/wa"
+                  expanded={expanded}
+                  active={location.pathname === "/admin/history/wa"}
+                />
+              </div>
+            )}
+
+            <button
+              onClick={() => setLandingOpen(!landingOpen)}
+              className={`flex items-center justify-between px-4 py-3 w-full rounded-lg transition-colors
+                ${
+                  landingOpen
+                    ? "bg-[#F5F5FF] text-[#5D5FEF]"
+                    : "text-gray-700 hover:bg-[#F5F5FF] hover:text-[#5D5FEF]"
+                }`}
+            >
+              <div className="flex items-center gap-3">
+                <FiBox />
+                {expanded && <span className="font-bold">Landing</span>}
+              </div>
+              {expanded && (landingOpen ? <FiChevronUp /> : <FiChevronDown />)}
+            </button>
+
+            {landingOpen && expanded && (
+              <div className="ml-8 space-y-1">
+                <SidebarButton
+                  label="Section Fitur"
+                  path="/admin/landing/fitur"
+                  expanded={expanded}
+                  active={location.pathname === "/admin/landing/fitur"}
                 />
                 <SidebarButton
                   label="WhatsApp"
