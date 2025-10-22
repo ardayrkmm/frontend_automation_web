@@ -26,7 +26,7 @@ export default function FeaturesSection() {
   }
 
   return (
-    <section className="py-12 px-4 md:px-8 lg:px-16">
+    <section id="fitur" className="py-12 px-4 md:px-8 lg:px-16">
       <h1 className="text-inter text-hitam font-bold text-[32px] md:text-[40px] lg:text-[50px] text-center leading-tight">
         Fitur Unggulan yang Kami Tawarkan
       </h1>

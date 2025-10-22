@@ -1,4 +1,11 @@
 import axios from "axios";
+import { logout } from "../features/authSlice";
+
+let storeRef; // tempat simpan store nanti
+
+export const injectStore = (store) => {
+    storeRef = store;
+};
 
 const axiosInstance = axios.create({
     baseURL: "https://chatbot.gitstraining.com/api/",
@@ -7,13 +14,29 @@ const axiosInstance = axios.create({
     },
 });
 
-// Interceptor untuk otomatis tambahkan token di setiap request
 axiosInstance.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+    if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
+
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            console.warn("Token expired. Logout otomatis...");
+
+            if (storeRef) {
+                storeRef.dispatch(logout());
+            }
+
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "/auth/login";
+        }
+
+        return Promise.reject(error);
+    }
+);
 
 export default axiosInstance;

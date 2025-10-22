@@ -26,10 +26,10 @@ const Navbar = () => {
   const chatBotClick = () => navigate("/chatbot");
   const handleDash = () => navigate("/user/dashboard");
   const menus = [
-    { name: "Bisnis", path: "/bisnis" },
-    { name: "Fitur", path: "/fitur" },
-    { name: "Harga Paket", path: "/harga" },
-    { name: "FAQ", path: "/faq" },
+    { name: "Bisnis", path: "#bisnis" },
+    { name: "Fitur", path: "#fitur" },
+    { name: "Harga Paket", path: "#harga" },
+    { name: "FAQ", path: "#faq" },
     { name: "Chatbot", path: "/chatbot" },
   ];
 
@@ -58,9 +58,17 @@ const Navbar = () => {
                 key={idx}
                 className="cursor-pointer hover:text-blue-800 flex items-center space-x-1"
               >
-                <Link to={menu.path} className="mr-[10px]">
-                  {menu.name}
-                </Link>
+                {menu.path.startsWith("#") ? (
+                  // 🔸 Jika tujuannya adalah section di halaman (pakai anchor)
+                  <a href={menu.path} className="mr-[10px]">
+                    {menu.name}
+                  </a>
+                ) : (
+                  // 🔹 Jika tujuannya adalah halaman lain (pakai React Router)
+                  <Link to={menu.path} className="mr-[10px]">
+                    {menu.name}
+                  </Link>
+                )}
                 <IoIosArrowDown />
               </li>
             ))}

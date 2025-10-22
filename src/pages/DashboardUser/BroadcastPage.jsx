@@ -31,6 +31,8 @@ const BroadcastPage = () => {
     e.preventDefault();
     if (!message.trim()) return alert("Message tidak boleh kosong");
     if (numbers.length === 0) return alert("Tambahkan minimal 1 nomor");
+    console.log("DATA DIKIRIM:", { message, numbers });
+
     dispatch(sendBroadcast({ message: message.trim(), numbers }));
   };
 
@@ -126,10 +128,7 @@ const BroadcastPage = () => {
         <div>
           {lastResult && (
             <div className="mt-3 p-3 rounded border bg-green-50 text-hitam">
-              <div className="font-medium">Berhasil disimpan</div>
-              <pre className="text-sm mt-2">
-                {lastResult.message || "Broadcast berhasil dikirim!"}
-              </pre>
+              <pre className="text-sm mt-2">Berhasil Terkirim!</pre>
             </div>
           )}
 

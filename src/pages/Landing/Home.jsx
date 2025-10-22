@@ -1,7 +1,7 @@
 import Headers from "../../components/landing/Header";
 import bgWave from "../../assets/BACKGROUND.png";
 import ContentSection from "../../components/landing/ContentSection";
-import gambarS1 from "../../assets/il3.png";
+import gambarS1 from "../../assets/hp1.png";
 import gambarS4 from "../../assets/ds4.png";
 import ContentSection2 from "../../components/landing/ContentSection2";
 import ContentSection3 from "../../components/landing/ContentSection3";
@@ -10,6 +10,7 @@ import FeaturesSection from "../../components/landing/ContentSection4";
 import SectionHarga from "../../components/landing/SectionHarga";
 import ContentClient from "../../components/landing/SectionClient";
 import FAQ from "../../components/landing/Faq";
+import GeniusCard from "../../components/landing/GeniusCard";
 
 const Home = () => {
   return (
@@ -27,16 +28,9 @@ const Home = () => {
 Semua terintegrasi dalam satu AI yang cerdas dan responsif…"
           image={gambarS1}
           reverse={true}
-          extraContent={
-            <p
-              className="text-biru cursor-pointer"
-              onClick={() => console.log("Load more clicked!")}
-            >
-              Lihat Demo..
-            </p>
-          }
+          extraContent={<GeniusCard />}
         />
-        <div className="relative">
+        <div className="relative" >
           <FeaturesSection />
         </div>
 
@@ -53,9 +47,10 @@ Semua terintegrasi dalam satu AI yang cerdas dan responsif…"
               Lihat Demo..
             </p>
           }
+          
         />
 
-        <SectionHarga />
+        <SectionHarga  />
         <ContentSection2 />
         <ContentSection
           title="100% data anda"
@@ -64,9 +59,9 @@ Semua terintegrasi dalam satu AI yang cerdas dan responsif…"
           image={gambarS4}
           reverse={true}
         />
-        <ContentClient />
+        <ContentClient  />
         <FAQ />
-        <ContentSection3 />
+
         <TestimonialSection />
       </div>
     </div>

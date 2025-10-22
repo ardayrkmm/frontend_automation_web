@@ -20,7 +20,10 @@ const SectionHarga = () => {
     );
 
   return (
-    <div className="w-full px-4 sm:px-[52px] flex flex-col justify-center mb-[20px] items-center h-auto">
+    <div
+      id="harga"
+      className="w-full px-4 sm:px-[52px] flex flex-col justify-center mb-[20px] items-center h-auto"
+    >
       <h2 className="text-[28px] sm:text-[32px] md:text-[72px] font-bold text-hitam mb-4 text-center">
         <span className="relative z-[10] inline-block">
           Investasi Rekrut Gitbots

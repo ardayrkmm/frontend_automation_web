@@ -60,7 +60,10 @@ const FAQ = () => {
   };
 
   return (
-    <div className="w-full px-4 py-4 sm:px-[52px] flex flex-col justify-start items-start h-auto bg-gradient-to-t from-[#B0B0B0] to-putih">
+    <div
+      id="faq"
+      className="w-full px-4 py-4 sm:px-[52px] flex flex-col justify-start items-start h-auto bg-gradient-to-t from-[#B0B0B0] to-putih"
+    >
       <h2 className="text-[40px] md:text-[56px] text-hitam font-bold text-start mb-6">
         Pertanyaan yang sering di tanyakan :
       </h2>

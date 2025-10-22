@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiSend } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -7,14 +7,24 @@ import {
   addBotMessage,
   clearChat,
 } from "../../features/chatbotSlice";
+import { useLocation } from "react-router-dom";
 
 const Chatbot = () => {
   const [input, setInput] = useState("");
   const { messages, loading } = useSelector((state) => state.chatbot);
-  const { token } = useSelector((state) => state.auth); // ✅ cek login
+  const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  const location = useLocation();
+
+  const hasAsked = useRef(false);
+
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const initialQuestion = params.get("question");
+
+    if (hasAsked.current) return;
+
     if (messages.length === 0) {
       const hour = new Date().getHours();
       let greeting = "Halo 👋!";
@@ -22,11 +32,23 @@ const Chatbot = () => {
       else if (hour < 18) greeting = "Halo, selamat siang 👋!";
       else greeting = "Halo, selamat malam 👋!";
 
-      dispatch(clearChat()); // pastikan kosong
+      dispatch(clearChat());
       dispatch(addBotMessage(`${greeting} Boleh tahu siapa nama kamu?`));
-    }
-  }, [dispatch]);
 
+      if (initialQuestion) {
+        hasAsked.current = true; // ✅ tandai sudah kirim
+        setTimeout(() => {
+          dispatch(addUserMessage(initialQuestion));
+          dispatch(
+            sendMessage({
+              message: initialQuestion,
+              isGuest: !token,
+            })
+          );
+        }, 1000);
+      }
+    }
+  }, [dispatch, location.search, messages.length, token]);
   const handleSend = () => {
     if (!input.trim()) return;
 
@@ -64,11 +86,6 @@ const Chatbot = () => {
         <p className="text-gray-500">
           Chat with the smartest AI - Experience the power of AI with us
         </p>
-        {!token && (
-          <span className="text-red-500 text-sm">
-            Mode: Coba Gratis (maks 10 chat) 🚀
-          </span>
-        )}
       </div>
 
       {/* Chat area */}

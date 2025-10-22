@@ -7,7 +7,7 @@ export const sendBroadcast = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        `${Config.API_BASE_URL}/admin/broadcast/add`,
+        `${Config.API_BASE_URL}/user/broadcast/add`,
         payload,
         {
           headers: { "Content-Type": "application/json" },

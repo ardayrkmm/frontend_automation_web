@@ -1,8 +1,8 @@
-// src/features/chatbot/chatbotSlice.js
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../api/axiosInstance";
 
-// chatbotSlice.js
+
 export const sendMessage = createAsyncThunk(
   "chatbot/sendMessage",
   async ({ message, session_id, isGuest }, { rejectWithValue }) => {
