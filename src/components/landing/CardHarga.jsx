@@ -18,6 +18,9 @@ const CardHarga = ({
   const handleClick = () => {
     navigate(`/checkout/${id}`);
   };
+  const cleanPrice = Number(
+    price.toString().replace(/[^\d]/g, "") // hapus semua karakter non-angka
+  );
 
   return (
     <div
@@ -38,9 +41,8 @@ const CardHarga = ({
             highlight ? "text-blue-900" : "text-gray-900"
           }`}
         >
-          Rp. {Number(price.replace("Rp.", "")).toLocaleString("id-ID")}
+          Rp. {cleanPrice.toLocaleString("id-ID")}
         </p>
-
         <p className="text-sm sm:text-base text-gray-500 mt-1">{description}</p>
 
         <ul className="mt-6 space-y-3">

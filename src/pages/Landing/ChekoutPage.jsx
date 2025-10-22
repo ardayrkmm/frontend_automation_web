@@ -27,33 +27,52 @@ const CheckoutPage = () => {
       dispatch(ambilPrice());
     }
   }, [dispatch, plans]);
+
+  // 🔹 Log untuk debug
   useEffect(() => {
     console.log("ID dari URL:", id);
     console.log("Daftar plans:", plans);
   }, [plans, id]);
 
-  // 🔹 Temukan plan berdasarkan ID dari URL
+  // 🔹 Temukan plan berdasarkan ID dari URL dan ubah harga ke integer
   useEffect(() => {
     if (plans && plans.length > 0) {
       const found = plans.find((p) => String(p.id) === String(id));
-      if (found) setSelectedPlan(found);
+      if (found) {
+        const cleanPrice = parseInt(
+          found.price.toString().replace(/[^\d]/g, ""), // hapus semua karakter non-angka
+          10
+        );
+        setSelectedPlan({
+          ...found,
+          price: cleanPrice, // 💰 simpan harga dalam bentuk integer
+        });
+      }
     }
   }, [plans, id]);
 
-  // 🔹 Proses checkout hanya ketika user klik tombol
+  // 🔹 Proses checkout
   const handleCheckout = () => {
     if (!token) {
       console.log("Token tidak ada, menuju ke /auth/login");
       navigate("/auth/login");
       return;
     }
-    dispatch(createCheckout({ plan_id: id, token }));
+
+    // Kirim plan_id dan token, bisa juga kirim price jika backend butuh
+    dispatch(
+      createCheckout({
+        plan_id: id,
+        token,
+        price: selectedPlan?.price, // 💵 kirim harga integer ke backend
+      })
+    );
   };
 
   // 🔹 Redirect setelah berhasil buat order
   useEffect(() => {
     if (order && order.payment_url) {
-      window.location.href = order.payment_url; // arahkan ke payment gateway
+      window.location.href = order.payment_url;
     }
   }, [order]);
 
@@ -83,9 +102,18 @@ const CheckoutPage = () => {
           <p className="text-lg font-semibold text-gray-800 mb-2">
             {selectedPlan.name}
           </p>
-          <p className="text-2xl font-bold text-blue-600 mb-4">
-            Rp.{selectedPlan.price}
+          <p className="text-2xl font-bold text-blue-700 mb-4">
+            {(() => {
+              // ubah ke number bersih dulu
+              const cleanPrice = parseInt(
+                selectedPlan.price.toString().replace(/[^\d]/g, ""),
+                10
+              );
+              // tampilkan format rupiah
+              return `Rp ${cleanPrice.toLocaleString("id-ID")}`;
+            })()}
           </p>
+
           <p className="text-gray-500 mb-6">
             Paket harga terbaik untuk kebutuhanmu.
           </p>
