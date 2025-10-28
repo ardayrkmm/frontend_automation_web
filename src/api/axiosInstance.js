@@ -1,6 +1,5 @@
 import axios from "axios";
 import { logout } from "../features/authSlice";
-import Config from "./config";
 
 let storeRef; // tempat simpan store nanti
 
@@ -9,7 +8,7 @@ export const injectStore = (store) => {
 };
 
 const axiosInstance = axios.create({
-    baseURL: Config.API_BASE_URL,
+    baseURL: "https://chatbot.gitstraining.com/api/",
     headers: {
         "Content-Type": "application/json",
     },

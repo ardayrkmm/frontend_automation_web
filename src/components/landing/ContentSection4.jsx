@@ -1,29 +1,31 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchFeatures } from "../../features/LandingFiturSlice";
 import SectionTile from "./SectionTile";
-
+import gambar1 from "../../assets/WhatsApp.png";
+import gambar2 from "../../assets/wa.png";
+import gambar3 from "../../assets/sate.png";
+import gambar4 from "../../assets/flow.png";
 export default function FeaturesSection() {
-  const dispatch = useDispatch();
-  const {
-    items: fiturs,
-    loading,
-    error,
-  } = useSelector((state) => state.fiturs);
-
-  useEffect(() => {
-    dispatch(fetchFeatures());
-  }, [dispatch]);
-
-  if (loading) {
-    return <p className="text-center mt-8">Memuat fitur...</p>;
-  }
-
-  if (error) {
-    return (
-      <p className="text-center text-red-500">Gagal memuat fitur: {error}</p>
-    );
-  }
+  const staticFeatures = [
+    {
+      title: "Omnichannel Platforms",
+      desc: "Balas pesan pelanggan otomatis dan kirim broadcast...",
+      gambar: gambar1,
+    },
+    {
+      title: "Manajemen Chat Satu Halaman",
+      desc: "WhatsApp, Telegram, dan banyak platform dalam satu...",
+      gambar: gambar2,
+    },
+    {
+      title: "BroadCast",
+      desc: "Otomatisasi balasan, alur, dan broadcast pesan.",
+      gambar: gambar3,
+    },
+    {
+      title: "Prompt & Flow System",
+      desc: "Selain Prompt sederhana, kamu juga bisa buat Geniu...",
+      gambar: gambar4,
+    },
+  ];
 
   return (
     <section id="fitur" className="py-12 px-4 md:px-8 lg:px-16">
@@ -35,13 +37,13 @@ export default function FeaturesSection() {
         className="grid gap-8 mt-10 justify-items-center
                    grid-cols-[repeat(auto-fit,minmax(250px,1fr))]"
       >
-        {fiturs.map((feature, index) => (
+        {staticFeatures.map((feature, index) => (
           <SectionTile key={index}>
             <div className="relative">
               <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#FFF1DA] rounded-md -z-10"></div>
               <div className="w-14 h-14 flex items-center justify-center rounded-xl">
                 <img
-                  src={`https://blatantly-large-coral.ngrok-free.app/${feature.gambar}`}
+                  src={feature.gambar}
                   className="w-[150px]"
                   alt={feature.title}
                 />
