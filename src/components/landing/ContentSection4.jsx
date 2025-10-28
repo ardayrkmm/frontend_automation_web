@@ -41,7 +41,7 @@ export default function FeaturesSection() {
               <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#FFF1DA] rounded-md -z-10"></div>
               <div className="w-14 h-14 flex items-center justify-center rounded-xl">
                 <img
-                  src={`https://chatbot.gitstraining.com/${feature.gambar}`}
+                  src={`https://blatantly-large-coral.ngrok-free.app/${feature.gambar}`}
                   className="w-[150px]"
                   alt={feature.title}
                 />
