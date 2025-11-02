@@ -26,6 +26,7 @@ import HalDashboardUser from "./pages/DashboardUser/DashboardUser";
 import UserList from "./pages/admin/Pengguna";
 import AdminAddFeature from "./pages/admin/LandingFitur";
 import PaketHistoriPengguna from "./pages/admin/PaketHistori";
+import BroadcastHistory from "./pages/DashboardUser/HistoryBroadcast";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -76,6 +77,10 @@ function App() {
           <Route index element={<HalDashboardUser />} />
           <Route path="dashboard" element={<HalDashboardUser />} />
           <Route path="dashboard/broadcast" element={<BroadcastPage />} />
+          <Route
+            path="dashboard/histori/broadcast"
+            element={<BroadcastHistory />}
+          />
           <Route path="dashboard/chatbot" element={<ChatbotBuilder />} />
           <Route path="dashboard/paket" element={<PaketTagihan />} />
         </Route>

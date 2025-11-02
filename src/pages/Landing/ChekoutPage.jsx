@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { createCheckout, resetCheckout } from "../../features/chekoutSlice";
 import { ambilPrice } from "../../features/pricingSlice";
 import { useParams, useNavigate } from "react-router-dom";
-
+import Button from "../../components/common/button";
 const CheckoutPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -96,13 +96,13 @@ const CheckoutPage = () => {
       {/* Ringkasan Plan */}
       {!loadingPlans && selectedPlan && !order && (
         <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg text-center">
-          <h2 className="text-3xl font-bold text-blue-700 mb-6">
+          <h2 className="text-3xl font-bold text-biru mb-6">
             Ringkasan Checkout
           </h2>
           <p className="text-lg font-semibold text-gray-800 mb-2">
             {selectedPlan.name}
           </p>
-          <p className="text-2xl font-bold text-blue-700 mb-4">
+          <p className="text-2xl font-bold text-biru mb-4">
             {(() => {
               // ubah ke number bersih dulu
               const cleanPrice = parseInt(
@@ -124,12 +124,13 @@ const CheckoutPage = () => {
             ))}
           </ul>
 
-          <button
+          <Button
             onClick={handleCheckout}
-            className="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-all"
+            variant="primary"
+            className="w-full  text-white font-semibold py-3 rounded-xl transition-all"
           >
             Lanjutkan Pembayaran
-          </button>
+          </Button>
 
           <button
             onClick={() => navigate(-1)}

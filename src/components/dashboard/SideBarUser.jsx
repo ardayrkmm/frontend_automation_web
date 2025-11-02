@@ -6,17 +6,19 @@ import {
   FiX,
   FiChevronsLeft,
   FiChevronsRight,
+  FiChevronDown,
+  FiChevronUp,
 } from "react-icons/fi";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 import logo from "../../assets/logos1.png";
 
 const SidebarUser = ({ isOpen, toggleSidebar }) => {
   const [expanded, setExpanded] = useState(true);
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [broadcastOpen, setBroadcastOpen] = useState(false); // 🟢 tambah state baru
   const { user } = useSelector((state) => state.auth);
   const location = useLocation();
 
@@ -86,13 +88,45 @@ const SidebarUser = ({ isOpen, toggleSidebar }) => {
               expanded={expanded}
               active={location.pathname === "/user/dashboard"}
             />
-            <SidebarButton
-              icon={<FiMessageSquare />}
-              label="Broadcast"
-              path="/user/dashboard/broadcast"
-              expanded={expanded}
-              active={location.pathname === "/user/dashboard/broadcast"}
-            />
+
+            {/* 🟢 Broadcast Dropdown */}
+            <button
+              onClick={() => setBroadcastOpen(!broadcastOpen)}
+              className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg font-medium transition-colors
+                ${
+                  broadcastOpen
+                    ? "bg-[#5D5FEF] text-white shadow"
+                    : "text-gray-700 hover:bg-[#F5F5FF] hover:text-[#5D5FEF]"
+                }`}
+            >
+              <div className="flex items-center gap-3">
+                <FiBox />
+                {expanded && <span>BroadCast</span>}
+              </div>
+              {expanded &&
+                (broadcastOpen ? <FiChevronUp /> : <FiChevronDown />)}
+            </button>
+
+            {broadcastOpen && expanded && (
+              <div className="ml-8 space-y-1">
+                <SidebarButton
+                  label="Buat Broadcast"
+                  path="/user/dashboard/broadcast"
+                  expanded={expanded}
+                  active={location.pathname === "/user/dashboard/broadcast"}
+                />
+                <SidebarButton
+                  label="History BroadCast"
+                  path="/user/dashboard/histori/broadcast"
+                  expanded={expanded}
+                  active={
+                    location.pathname === "/user/dashboard/histori/broadcast"
+                  }
+                />
+              </div>
+            )}
+            {/* 🟢 End Broadcast Dropdown */}
+
             <SidebarButton
               icon={<FiBox />}
               label="Chatbot"
@@ -118,10 +152,10 @@ const SidebarUser = ({ isOpen, toggleSidebar }) => {
             {/* History Section */}
             <button
               onClick={() => setHistoryOpen(!historyOpen)}
-              className={`flex items-center justify-between px-4 py-3 w-full rounded-lg transition-colors
+              className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg font-medium transition-colors
                 ${
                   historyOpen
-                    ? "bg-[#F5F5FF] text-[#5D5FEF]"
+                    ? "bg-[#5D5FEF] text-white shadow"
                     : "text-gray-700 hover:bg-[#F5F5FF] hover:text-[#5D5FEF]"
                 }`}
             >

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logos from "../../assets/logos.png";
-
+import Button from "../../components/common/button";
 export default function GeniusCard() {
   const [show, setShow] = useState(true);
   const [question, setQuestion] = useState(""); // ✅ input state
@@ -48,12 +48,12 @@ export default function GeniusCard() {
         />
 
         {/* Tombol kirim */}
-        <button
+        <Button
           onClick={handleAsk}
           className="bg-[#5F65F6] w-full h-[61px] text-white px-5 py-2 rounded-xl hover:bg-indigo-600 transition font-medium"
         >
           Tanya Sekarang!
-        </button>
+        </Button>
       </div>
     </div>
   );
