@@ -100,8 +100,14 @@ const Chatbot = () => {
             }`}
             dangerouslySetInnerHTML={{
               __html: msg.text
-                .replace(/\n/g, "<br>") // biar baris baru tetap kelihatan
-                .replace(/- /g, "• "), // ubah list jadi bullet
+                // deteksi URL (http/https)
+                .replace(
+                  /(https?:\/\/[^\s]+)/g,
+                  '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">$1</a>'
+                )
+                // ubah newline dan list bullet
+                .replace(/\n/g, "<br>")
+                .replace(/- /g, "• "),
             }}
           />
         ))}

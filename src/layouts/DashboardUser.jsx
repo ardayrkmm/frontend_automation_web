@@ -12,7 +12,7 @@ const DashboardUser = () => {
     setActiveChatId(null); // reset jadi chat baru
   };
   return (
-    <div className="flex h-screen bg-[#141718] text-white">
+    <div className="flex h-screen ">
       {/* Sidebar */}
       <SidebarUser
         isOpen={sidebarOpen}

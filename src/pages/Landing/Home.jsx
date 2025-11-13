@@ -11,7 +11,7 @@ import SectionHarga from "../../components/landing/SectionHarga";
 import ContentClient from "../../components/landing/SectionClient";
 import FAQ from "../../components/landing/Faq";
 import GeniusCard from "../../components/landing/GeniusCard";
-
+import Button from "../../components/common/button";
 const Home = () => {
   return (
     <div className="relative">

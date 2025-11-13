@@ -123,30 +123,6 @@ const Sidebar = ({ isOpen, toggleSidebar, onSelectChat, onNewChat }) => {
             </div>
           </div>
         </div>
-
-        {/* Bottom */}
-        {expanded ? (
-          <div>
-            <div className="flex items-center gap-2 p-3 rounded bg-[#2e2e2e] mb-2">
-              <img src={avatar} className="w-8 h-8 rounded-full" alt="User" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">
-                  {user?.name || "Guest"} {/* ✅ dynamic */}
-                </p>
-                <p className="text-xs text-gray-400">
-                  {user?.email || "Belum login"} {/* ✅ dynamic */}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-between px-3 py-2 bg-[#2e2e2e] rounded">
-              <button className="text-white text-xs">Light</button>
-              <button className="text-gray-500 text-xs">Dark</button>
-            </div>
-          </div>
-        ) : (
-          <div className="mb-3 text-center text-xs text-gray-400">▼</div>
-        )}
       </div>
     </div>
   );

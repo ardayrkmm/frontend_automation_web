@@ -6,6 +6,7 @@ import gogel from "../../assets/gogel.png";
 import Buttons from "../../components/common/button";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../features/authSlice";
+import Config from "../../api/config";
 
 const HalamanRegis = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -36,6 +37,9 @@ const HalamanRegis = () => {
   // ✅ Regex Validasi
   const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
   const validatePhone = (phone) => /^[0-9]{10,15}$/.test(phone);
+  const handleGoogleLogin = () => {
+    window.location.href = `https://blatantly-large-coral.ngrok-free.app/api/user/login/google`;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -236,7 +240,11 @@ const HalamanRegis = () => {
               or continue with
             </div>
             <div className="flex justify-center mt-1">
-              <button type="button" className="border rounded-full p-2">
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                className="border rounded-full p-2"
+              >
                 <img src={gogel} alt="Google" className="w-6 h-6" />
               </button>
             </div>

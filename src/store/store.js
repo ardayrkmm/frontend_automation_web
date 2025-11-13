@@ -12,7 +12,7 @@ import adminUsersReducer from "../features/AdminUserSlice";
 import createChatbotRed from "../features/createChatbot";
 import LandingFitur from "../features/LandingFiturSlice";
 import PaketHistoriPengguna from "../features/PaketHistoriPenggunaSlice";
-
+import customerReducer from "../features/CustomerSlice";
 import { injectStore } from "../api/axiosInstance"; // ✅ injeksi store
 
 export const store = configureStore({
@@ -30,6 +30,7 @@ export const store = configureStore({
     createChatbot: createChatbotRed,
     fiturs: LandingFitur,
     PaketHistoriPenggunas: PaketHistoriPengguna,
+    customer: customerReducer,
   },
 });
 

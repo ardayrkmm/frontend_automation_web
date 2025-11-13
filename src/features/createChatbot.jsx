@@ -16,6 +16,7 @@ export const uploadChatbot = createAsyncThunk(
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            "x-api-key": Config.API_KEY,
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
@@ -23,6 +24,26 @@ export const uploadChatbot = createAsyncThunk(
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || "Upload gagal");
+    }
+  }
+);
+
+// Ambil semua chatbot user
+export const fetchChatbots = createAsyncThunk(
+  "chatbot/fetchChatbots",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(`${Config.API_BASE_URL}/user/chatbot/list`, {
+        headers: {
+          "x-api-key": Config.API_KEY,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      return res.data; // ini array chatbot dari backend
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || "Gagal mengambil daftar chatbot"
+      );
     }
   }
 );
@@ -46,6 +67,18 @@ const createChatbot = createSlice({
         state.bots.push(action.payload);
       })
       .addCase(uploadChatbot.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchChatbots.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchChatbots.fulfilled, (state, action) => {
+        state.loading = false;
+        state.bots = action.payload; // ganti array bots dengan data baru
+      })
+      .addCase(fetchChatbots.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

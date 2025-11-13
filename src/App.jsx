@@ -27,6 +27,9 @@ import UserList from "./pages/admin/Pengguna";
 import AdminAddFeature from "./pages/admin/LandingFitur";
 import PaketHistoriPengguna from "./pages/admin/PaketHistori";
 import BroadcastHistory from "./pages/DashboardUser/HistoryBroadcast";
+import GoogleCallback from "./pages/Auth/GoogleCall";
+import HalamanCustomer from "./pages/DashboardUser/CustomerPages";
+import ChatbotGuest from "./pages/Landing/chatbotUser";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -83,12 +86,14 @@ function App() {
           />
           <Route path="dashboard/chatbot" element={<ChatbotBuilder />} />
           <Route path="dashboard/paket" element={<PaketTagihan />} />
+          <Route path="dashboard/Customer" element={<HalamanCustomer />} />
         </Route>
-
+        <Route path="/chat/:chatbot_id" element={<ChatbotGuest />} />
         <Route path="/checkout/:id" element={<CheckoutPage />} />
 
         {/* Auth */}
         <Route path="/auth/login" element={<Login />} />
+        <Route path="/googel/call" element={<GoogleCallback />} />
         <Route path="/auth/register" element={<HalamanRegis />} />
         <Route path="/auth/reset" element={<Reset />} />
         <Route path="/auth/admin/login" element={<LoginAdmin />} />

@@ -1,7 +1,6 @@
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../api/axiosInstance";
-
+import Config from "../api/config";
 
 export const sendMessage = createAsyncThunk(
   "chatbot/sendMessage",
@@ -9,11 +8,16 @@ export const sendMessage = createAsyncThunk(
     try {
       const endpoint = isGuest ? "user/chatbot/guest" : "user/chatbot";
 
-      const res = await axiosInstance.post(endpoint, {
-        message,
-        session_id,
-      });
-
+      const res = await axiosInstance.post(
+        endpoint,
+        { message, session_id },
+        {
+          headers: {
+            "x-api-key": Config.API_KEY,
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // ⬅️ tambahkan token
+          },
+        }
+      );
       return res.data;
     } catch (err) {
       return rejectWithValue(

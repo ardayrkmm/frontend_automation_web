@@ -1,53 +1,70 @@
-import { FiCpu, FiMessageSquare, FiCreditCard } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  FiCpu,
+  FiMessageSquare,
+  FiCreditCard,
+  FiAlertCircle,
+} from "react-icons/fi";
+import Config from "../../api/config";
 
 export default function HalDashboardUser() {
-  // Dummy data
-  const stats = [
-    {
-      icon: <FiCpu className="text-blue-600 text-2xl" />,
-      label: "Total Chatbot",
-      value: 3,
-      desc: "2 Website, 1 WhatsApp",
-    },
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(
+          `${Config.API_BASE_URL}/user/dashboard/analys`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setData(res.data);
+      } catch (err) {
+        console.error("Error fetch dashboard:", err);
+        setError("Gagal memuat data dashboard.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboard();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="p-6 text-gray-500 animate-pulse">
+        Memuat data dashboard...
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="p-6 text-red-500 flex items-center gap-2">
+        <FiAlertCircle /> {error}
+      </div>
+    );
+
+  const { stats, broadcasts, orders } = data;
+
+  const statCards = [
     {
       icon: <FiMessageSquare className="text-green-600 text-2xl" />,
       label: "Broadcast Terkirim",
-      value: 12,
-      desc: "Dalam 7 hari terakhir",
+      value: stats.broadcast_sent,
+      desc: `${stats.total_broadcast} total broadcast`,
     },
     {
       icon: <FiCreditCard className="text-indigo-600 text-2xl" />,
       label: "Paket Aktif",
-      value: "Pro Plan",
-      desc: "Berlaku hingga 30 Okt 2025",
-    },
-  ];
-
-  const recentBots = [
-    {
-      id: 1,
-      nama: "Website Chatbot",
-      platform: "Website",
-      tanggal: "2025-10-01",
-    },
-    {
-      id: 2,
-      nama: "WhatsApp Assistant",
-      platform: "WhatsApp",
-      tanggal: "2025-09-25",
-    },
-  ];
-
-  const lastBroadcasts = [
-    {
-      id: 1,
-      pesan: "Promo bulan Oktober sudah dimulai!",
-      tanggal: "2025-10-05",
-    },
-    {
-      id: 2,
-      pesan: "Cek panduan chatbot terbaru di dashboard.",
-      tanggal: "2025-10-02",
+      value: stats.active_plan,
+      desc: `Berlaku hingga ${stats.active_until}`,
     },
   ];
 
@@ -57,7 +74,7 @@ export default function HalDashboardUser() {
 
       {/* Statistik Ringkas */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {stats.map((s, i) => (
+        {statCards.map((s, i) => (
           <div
             key={i}
             className="flex items-center gap-4 border rounded-2xl p-4 shadow-sm hover:shadow-md transition"
@@ -72,31 +89,6 @@ export default function HalDashboardUser() {
         ))}
       </div>
 
-      {/* Daftar Chatbot */}
-      <div>
-        <h2 className="font-semibold mb-3">Chatbot Terbaru</h2>
-        <div className="border rounded-2xl overflow-hidden">
-          <table className="min-w-full text-sm text-left">
-            <thead className="bg-gray-100 text-gray-600">
-              <tr>
-                <th className="px-4 py-2">Nama</th>
-                <th className="px-4 py-2">Platform</th>
-                <th className="px-4 py-2">Tanggal Dibuat</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentBots.map((bot) => (
-                <tr key={bot.id} className="border-t">
-                  <td className="px-4 py-2">{bot.nama}</td>
-                  <td className="px-4 py-2">{bot.platform}</td>
-                  <td className="px-4 py-2">{bot.tanggal}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
       {/* Broadcast Terakhir */}
       <div>
         <h2 className="font-semibold mb-3 mt-6">Broadcast Terakhir</h2>
@@ -106,15 +98,82 @@ export default function HalDashboardUser() {
               <tr>
                 <th className="px-4 py-2">Tanggal</th>
                 <th className="px-4 py-2">Pesan</th>
+                <th className="px-4 py-2">Status</th>
               </tr>
             </thead>
             <tbody>
-              {lastBroadcasts.map((b) => (
-                <tr key={b.id} className="border-t">
-                  <td className="px-4 py-2">{b.tanggal}</td>
-                  <td className="px-4 py-2">{b.pesan}</td>
+              {broadcasts.length > 0 ? (
+                broadcasts.map((b, idx) => (
+                  <tr key={idx} className="border-t">
+                    <td className="px-4 py-2">{b.date}</td>
+                    <td className="px-4 py-2">{b.message}</td>
+                    <td className="px-4 py-2">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          b.status === "sent"
+                            ? "bg-green-100 text-green-700"
+                            : b.status === "pending"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {b.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="3"
+                    className="text-center text-gray-400 py-4 italic"
+                  >
+                    Tidak ada broadcast terakhir.
+                  </td>
                 </tr>
-              ))}
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Riwayat Paket */}
+      <div>
+        <h2 className="font-semibold mb-3 mt-6">Riwayat Paket</h2>
+        <div className="border rounded-2xl overflow-hidden">
+          <table className="min-w-full text-sm text-left">
+            <thead className="bg-gray-100 text-gray-600">
+              <tr>
+                <th className="px-4 py-2">Tanggal</th>
+                <th className="px-4 py-2">Paket</th>
+                <th className="px-4 py-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.length > 0 ? (
+                orders.map((o, idx) => (
+                  <tr key={idx} className="border-t">
+                    <td className="px-4 py-2">{o.created_at}</td>
+                    <td className="px-4 py-2">{o.plan_name}</td>
+                    <td
+                      className={`px-4 py-2 font-medium ${
+                        o.status === "paid" ? "text-green-600" : "text-red-600"
+                      }`}
+                    >
+                      {o.status}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="3"
+                    className="text-center text-gray-400 py-4 italic"
+                  >
+                    Belum ada riwayat paket.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

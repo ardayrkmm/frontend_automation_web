@@ -15,6 +15,7 @@ export const sendBroadcast = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "x-api-key": Config.API_KEY,
           },
           timeout: 10000,
         }
@@ -39,6 +40,7 @@ export const ambilDataBroadcast = createAsyncThunk(
       const res = await axios.get(`${Config.API_BASE_URL}/user/broadcast`, {
         headers: {
           "Content-Type": "application/json",
+          "x-api-key": Config.API_KEY,
           Authorization: `Bearer ${token}`,
         },
         timeout: 10000,

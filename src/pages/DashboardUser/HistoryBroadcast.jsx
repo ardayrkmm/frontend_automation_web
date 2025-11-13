@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ambilDataBroadcast } from "../../features/BroadcastSlice";
 import { FiClock, FiSend, FiAlertCircle } from "react-icons/fi";
@@ -7,9 +7,18 @@ export default function BroadcastHistory() {
   const dispatch = useDispatch();
   const { items, loading, error } = useSelector((state) => state.broadcast);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // tampilkan 6 data per halaman
+
   useEffect(() => {
     dispatch(ambilDataBroadcast());
   }, [dispatch]);
+
+  // ✅ Hitung data per halaman
+  const indexLast = currentPage * itemsPerPage;
+  const indexFirst = indexLast - itemsPerPage;
+  const currentItems = items.slice(indexFirst, indexLast);
+  const totalPages = Math.ceil(items.length / itemsPerPage);
 
   return (
     <div className="p-6">
@@ -31,7 +40,7 @@ export default function BroadcastHistory() {
       )}
 
       <div className="mt-4 grid gap-3">
-        {items.map((b) => (
+        {currentItems.map((b) => (
           <div
             key={b.id}
             className="p-4 border rounded-xl shadow-sm hover:shadow-md transition bg-white flex flex-col sm:flex-row sm:items-center sm:justify-between"
@@ -82,6 +91,32 @@ export default function BroadcastHistory() {
           </div>
         ))}
       </div>
+
+      {/* ✅ Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-between items-center mt-6">
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 disabled:opacity-40"
+          >
+            Prev
+          </button>
+
+          <div className="text-gray-600 text-sm">
+            Halaman <span className="font-semibold">{currentPage}</span> dari{" "}
+            <span className="font-semibold">{totalPages}</span>
+          </div>
+
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 disabled:opacity-40"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

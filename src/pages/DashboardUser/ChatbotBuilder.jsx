@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadChatbot } from "../../features/createChatbot";
+import { uploadChatbot, fetchChatbots } from "../../features/createChatbot";
 
 export default function ChatbotBuilder() {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((s) => s.chatbot);
+  const { bots, loading, error } = useSelector((s) => s.createChatbot);
 
   const [showModal, setShowModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [newBot, setNewBot] = useState({ nama: "", platform: "Website" });
   const [file, setFile] = useState(null);
+
+  // Fetch data saat halaman pertama kali dimuat
+  useEffect(() => {
+    dispatch(fetchChatbots());
+  }, [dispatch]);
 
   const handleAddBot = () => {
     if (!newBot.nama) return alert("Nama chatbot harus diisi!");
@@ -23,7 +28,8 @@ export default function ChatbotBuilder() {
         setFile(null);
         setShowModal(false);
         setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 2500); // popup hilang otomatis
+        dispatch(fetchChatbots()); // Refresh list setelah upload berhasil
+        setTimeout(() => setShowSuccess(false), 2500);
       })
       .catch((err) => alert(err));
   };
@@ -41,12 +47,33 @@ export default function ChatbotBuilder() {
         </button>
       </div>
 
-      {/* Daftar Bot */}
+      {/* Daftar Chatbot */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <h1>Menyusul</h1>
+        {loading && bots.length === 0 && <p>Loading chatbots...</p>}
+        {!loading && bots.length === 0 && <p>Belum ada chatbot.</p>}
+
+        {bots.map((bot) => (
+          <div
+            key={bot.chatbot_id}
+            className="border rounded-xl p-4 shadow-sm bg-white hover:shadow-md transition"
+          >
+            <h3 className="font-semibold text-lg">{bot.name}</h3>
+            <p className="text-sm text-gray-500 mb-2">{bot.description}</p>
+            <p className="text-xs text-gray-400">
+              Dibuat: {new Date(bot.created_at).toLocaleString()}
+            </p>
+
+            <a
+              href={`/chat/${bot.chatbot_id}`} // ✅ arahkan ke route React
+              className="inline-block mt-3 text-blue-600 hover:underline text-sm"
+            >
+              🔗 Buka Chatbot
+            </a>
+          </div>
+        ))}
       </div>
 
-      {/* Modal Tambah */}
+      {/* Modal Tambah Chatbot */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 text-hitam">
           <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-lg relative">

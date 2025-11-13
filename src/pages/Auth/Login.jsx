@@ -6,6 +6,7 @@ import gogel from "../../assets/gogel.png";
 import Buttons from "../../components/common/button";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../features/authSlice";
+import Config from "../../api/config";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +22,9 @@ const Login = () => {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleGoogleLogin = () => {
+    window.location.href = `${Config.API_BASE_URL}/user/login/google`;
   };
 
   const handleLoginClick = (e) => {
@@ -113,7 +117,11 @@ const Login = () => {
               or continue with
             </div>
             <div className="flex justify-center mt-1">
-              <button type="button" className="border rounded-full p-2">
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                className="border rounded-full p-2"
+              >
                 <img src={gogel} alt="Google" className="w-6 h-6" />
               </button>
             </div>

@@ -3,7 +3,9 @@ import axios from "axios";
 import Config from "../api/config";
 
 export const ambilPrice = createAsyncThunk("pricing/fetchPricing", async () => {
-  const response = await axios.get(`${Config.API_BASE_URL}/user/pricing`);
+  const response = await axios.get(
+    `https://chatbot.gitstraining.com/api/user/pricing`
+  );
   return response.data;
 });
 

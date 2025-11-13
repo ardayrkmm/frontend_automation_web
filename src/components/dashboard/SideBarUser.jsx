@@ -17,8 +17,9 @@ import logo from "../../assets/logos1.png";
 
 const SidebarUser = ({ isOpen, toggleSidebar }) => {
   const [expanded, setExpanded] = useState(true);
-  const [historyOpen, setHistoryOpen] = useState(false);
-  const [broadcastOpen, setBroadcastOpen] = useState(false); // 🟢 tambah state baru
+
+  const [broadcastOpen, setBroadcastOpen] = useState(false);
+
   const { user } = useSelector((state) => state.auth);
   const location = useLocation();
 
@@ -125,15 +126,14 @@ const SidebarUser = ({ isOpen, toggleSidebar }) => {
                 />
               </div>
             )}
-            {/* 🟢 End Broadcast Dropdown */}
-
             <SidebarButton
               icon={<FiBox />}
-              label="Chatbot"
-              path="/user/dashboard/chatbot"
+              label="Customer"
+              path="/user/dashboard/Customer"
               expanded={expanded}
-              active={location.pathname === "/user/dashboard/chatbot"}
+              active={location.pathname === "/user/dashboard/Customer"}
             />
+
             <SidebarButton
               icon={<FiBox />}
               label="Paket"
@@ -141,47 +141,6 @@ const SidebarUser = ({ isOpen, toggleSidebar }) => {
               expanded={expanded}
               active={location.pathname === "/user/dashboard/paket"}
             />
-            <SidebarButton
-              icon={<FiSettings />}
-              label="Settings"
-              path="/admin/settings"
-              expanded={expanded}
-              active={location.pathname === "/admin/settings"}
-            />
-
-            {/* History Section */}
-            <button
-              onClick={() => setHistoryOpen(!historyOpen)}
-              className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg font-medium transition-colors
-                ${
-                  historyOpen
-                    ? "bg-[#5D5FEF] text-white shadow"
-                    : "text-gray-700 hover:bg-[#F5F5FF] hover:text-[#5D5FEF]"
-                }`}
-            >
-              <div className="flex items-center gap-3">
-                <FiBox />
-                {expanded && <span>History Chat User</span>}
-              </div>
-              {expanded && (historyOpen ? <FiChevronUp /> : <FiChevronDown />)}
-            </button>
-
-            {historyOpen && expanded && (
-              <div className="ml-8 space-y-1">
-                <SidebarButton
-                  label="Website"
-                  path="/admin/history/website"
-                  expanded={expanded}
-                  active={location.pathname === "/admin/history/website"}
-                />
-                <SidebarButton
-                  label="WhatsApp"
-                  path="/admin/history/wa"
-                  expanded={expanded}
-                  active={location.pathname === "/admin/history/wa"}
-                />
-              </div>
-            )}
           </div>
         </div>
       </div>
