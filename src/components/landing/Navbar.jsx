@@ -144,10 +144,10 @@ const Navbar = () => {
             {token ? (
               <>
                 <button
-                  onClick={() => navigate("/profile")}
-                  className="w-full flex items-center justify-center py-2 rounded-[8px] border text-[#4F9CF9] font-serif"
+                  onClick={handleDash}
+                  className="block w-full items-center text-center px-4 py-2 text-biru hover:bg-gray-100"
                 >
-                  <FaUserCircle className="text-2xl mr-2" /> Profil
+                  Dashboard
                 </button>
                 <button
                   onClick={handleLogout}

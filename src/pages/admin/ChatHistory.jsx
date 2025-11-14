@@ -1,4 +1,3 @@
-// src/pages/AdminChats.jsx
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChats } from "../../features/chatBotHistory";
@@ -7,21 +6,85 @@ export default function AdminChats() {
   const dispatch = useDispatch();
   const { chats, loading, error } = useSelector((state) => state.chats);
 
-  // Pagination
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  // Modal
   const [selectedChat, setSelectedChat] = useState(null);
 
   useEffect(() => {
     dispatch(fetchChats());
   }, [dispatch]);
 
-  const totalPages = chats?.length > 0 ? Math.ceil(chats.length / limit) : 1;
+  // --- ✅ Grouping chats by session_id ---
+  const groupedChats =
+    chats?.reduce((acc, chat) => {
+      if (!acc[chat.session_id]) {
+        acc[chat.session_id] = {
+          session_id: chat.session_id,
+          user_name: chat.user_name,
+          items: [],
+        };
+      }
+      acc[chat.session_id].items.push(chat);
+      return acc;
+    }, {}) || {};
+  // Format tanggal lengkap + pagi/siang/malam
+  function formatDateTime(datetime) {
+    if (!datetime) return "-";
+
+    const dateObj = new Date(datetime.replace(" ", "T")); // biar aman
+
+    const days = [
+      "Minggu",
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jumat",
+      "Sabtu",
+    ];
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Agu",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des",
+    ];
+
+    const dayName = days[dateObj.getDay()];
+    const date = dateObj.getDate();
+    const month = months[dateObj.getMonth()];
+    const year = dateObj.getFullYear();
+
+    const hours = dateObj.getHours().toString().padStart(2, "0");
+    const minutes = dateObj.getMinutes().toString().padStart(2, "0");
+
+    // Tentukan keterangan waktu
+    let period = "";
+    const h = dateObj.getHours();
+    if (h < 12) period = "Pagi";
+    else if (h < 15) period = "Siang";
+    else if (h < 18) period = "Sore";
+    else period = "Malam";
+
+    return `${dayName}, ${date} ${month} ${year} • ${hours}:${minutes} • ${period}`;
+  }
+
+  const groupedList = Object.values(groupedChats);
+
+  const totalPages =
+    groupedList.length > 0 ? Math.ceil(groupedList.length / limit) : 1;
+
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
-  const currentChats = chats?.slice(startIndex, endIndex) || [];
+  const currentChats = groupedList.slice(startIndex, endIndex);
 
   if (loading) return <p className="text-center text-blue-500">Loading...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
@@ -33,13 +96,14 @@ export default function AdminChats() {
       <div className="overflow-x-auto">
         <table className="table-auto border-collapse w-full border border-gray-300">
           <thead>
-            <tr className="bg-black text-white">
+            <tr className="bg-biru text-white">
               <th className="p-2 border">Nama User</th>
               <th className="p-2 border">Session ID</th>
               <th className="p-2 border">Pesan</th>
               <th className="p-2 border">Waktu</th>
             </tr>
           </thead>
+
           <tbody>
             {currentChats.length > 0 ? (
               currentChats.map((chat, idx) => (
@@ -56,8 +120,10 @@ export default function AdminChats() {
                       Lihat
                     </button>
                   </td>
-                  <td className="p-2 border">
-                    {chat.chats?.[0]?.created_at || "-"}
+
+                  {/* Ambil created_at dari chat pertama */}
+                  <td className="p-2 border text-hitam">
+                    {formatDateTime(chat.items?.[0]?.created_at)}
                   </td>
                 </tr>
               ))
@@ -105,28 +171,29 @@ export default function AdminChats() {
 
       {/* Modal */}
       {selectedChat && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center text-hitam justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-2/3 max-h-[80vh] overflow-y-auto">
             <h2 className="text-lg text-hitam font-bold mb-4">
               Chat Session: {selectedChat.session_id}
             </h2>
+
             <p className="mb-2 font-medium">
               User: {selectedChat.user_name || "-"}
             </p>
 
             <div className="space-y-3">
-              {selectedChat.chats?.map((h) => (
+              {selectedChat.items?.map((h) => (
                 <div key={h.id} className="border p-3 rounded bg-gray-50">
                   <p className="text-hitam">
-                    <span className="font-semibold text-hitam">User:</span>{" "}
-                    {h.message}
+                    <span className="font-semibold">User:</span> {h.message}
                   </p>
+
                   {h.response && (
                     <p className="text-hitam">
-                      <span className="font-semibold text-hitam">Bot:</span>{" "}
-                      {h.response}
+                      <span className="font-semibold">Bot:</span> {h.response}
                     </p>
                   )}
+
                   <p className="text-xs text-gray-500 mt-1">{h.created_at}</p>
                 </div>
               ))}

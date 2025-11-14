@@ -6,6 +6,7 @@ import {
   uploadCSVCustomer,
 } from "../../features/CustomerSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Buttons from "../../components/common/button";
 
 export default function HalamanCustomer() {
   const dispatch = useDispatch();
@@ -92,12 +93,12 @@ export default function HalamanCustomer() {
           value={nomer}
           onChange={(e) => setNomer(e.target.value)}
         />
-        <button
+        <Buttons
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          className=" text-white px-4 py-2 rounded-lg hover:bg-blue-700"
         >
           Tambah
-        </button>
+        </Buttons>
       </form>
 
       {/* Upload CSV */}
@@ -111,12 +112,14 @@ export default function HalamanCustomer() {
           onChange={(e) => setCsvFile(e.target.files[0])}
           className="flex-1"
         />
-        <button
+        <Buttons
           type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+          variant="secondary"
+          sizeTexts={20}
+          className="text-white text-[14px] px-4 py-2 rounded-lg "
         >
           Upload CSV
-        </button>
+        </Buttons>
       </form>
 
       {/* Tombol hapus banyak */}

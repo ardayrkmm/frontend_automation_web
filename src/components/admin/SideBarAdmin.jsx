@@ -94,13 +94,7 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
               expanded={expanded}
               active={location.pathname === "/admin/dashboard/pengguna"}
             />
-            <SidebarButton
-              icon={<FiBox />}
-              label="Chatbot History"
-              path="/user/dashboard/chatbot"
-              expanded={expanded}
-              active={location.pathname === "/user/dashboard/chatbot"}
-            />
+
             <SidebarButton
               icon={<FiBox />}
               label="Histori Paket Pengguna"
@@ -136,16 +130,16 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
                   expanded={expanded}
                   active={location.pathname === "/admin/history/website"}
                 />
-                <SidebarButton
+                {/* <SidebarButton
                   label="WhatsApp"
                   path="/admin/history/wa"
                   expanded={expanded}
                   active={location.pathname === "/admin/history/wa"}
-                />
+                /> */}
               </div>
             )}
 
-            <button
+            {/* <button
               onClick={() => setLandingOpen(!landingOpen)}
               className={`flex items-center justify-between px-4 py-3 w-full rounded-lg transition-colors
                 ${
@@ -176,7 +170,7 @@ const SidebarAdmin = ({ isOpen, toggleSidebar }) => {
                   active={location.pathname === "/admin/history/wa"}
                 />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
